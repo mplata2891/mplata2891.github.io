@@ -1,135 +1,253 @@
 @import "tailwindcss";
 
 @theme {
-  /* Core Surfaces */
-  --color-void: #080808;
-  --color-surface: #0e0e0e;
-  --color-surface-highlight: #141414;
-  --color-surface-raised: #1a1a1a;
-  
-  /* Text Colors */
-  --color-text-primary: #e2e2e2;
-  --color-text-secondary: #5a5a5a;
-  --color-text-dim: #2a2a2a;
 
-  /* purple accents */
-  --color-accent: #9D4EDD; 
-  --color-accent-hover: #C77DFF;
+    /* Typography */
+    --font-section-headers: 'Space Grotesk', sans-serif;        /* ROLE: section headers. */
+    --font-section-description: 'Chakra Petch', sans-serif;     /* ROLE: section descriptions */
+    --font-section-body: 'IBM Plex Sans', sans-serif;           /* ROLE: section body. */
+    --font-special-ui: 'JetBrains Mono', monospace;             /* ROLE: code and bracket . */
 
-  /* Functional Palette */
-  --color-phosphor: #00B32D;      /* Matrix/Terminal Green - System Success */
-  --color-critical: #FF3131;      /* Industrial Red - Error/Warning */
-  --color-telemetry: #0a7a8a;;     /* Data/Observation Blue - Low-level status */
-  --color-telemetry-dim: #052830;
-  --color-alert: #FFB703;         /* Amber/Yellow - High Priority/Booting */
+    /* Text Colors (Dark & Light Zones) */
+    --color-primary-color: #FAFDFC;     /* Aijiro White */
+    --color-secondary-color: #707372;   /* Pantone 424 C */
+    --color-dim-color: #2a2a2a;         /* Night Sky */
+    --color-primary-inverse: #000000;   /* Black (On Light Zone) */
 
-  /* Fonts */
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Chakra Petch', sans-serif; 
+    /* Text Colors (ACRNM Palette) */
+    --color-acrnm-blk: #0a0a0a;         /* Jet Black */
+    --color-acrnm-nvy: #040348;         /* Night Blue */
+    --color-acrnm-grn: #5d6532;         /* Army Green */
 
-  /* Borders */
-  --color-industrial: rgba(255, 255, 255, 0.08);
-  --color-border-subtle: rgba(157, 78, 221, 0.15);
-  --color-border-dim: rgba(157, 78, 221, 0.08);
+    /* Text Colors (Accents) */
+    --color-accent-dim: #753AA6;        /* Tribal Violet */
+    --color-accent: #9D4EDD;            /* Rouge Mystique */
+    --color-accent-bright: #C77DFF;     /* Red Violet */
 
-  /* Sharp Corners */
-  --radius-none: 0px;
-  --radius-sm: 4px;
-  --radius-DEFAULT: 6px;
+    /* Text Colors (Functional Sys Palette) */
+    --color-phosphor: #00B32D;         /* Terminal green. System success, [ OK ] states. */
+    --color-phosphor-dim: #003d0f;     /* Dark green. Phosphor backgrounds/tints. */
+    --color-critical: #FF3131;         /* Industrial red. Error, [ FAIL ] states. */
+    --color-critical-dim: #3d0000;     /* Dark red. Critical backgrounds/tints. */
+    --color-telemetry: #0a7a8a;        /* Data blue. Low-level status. (Fixed typo) */
+    --color-telemetry-bright: #0fb8cc; /* NEW. Readable telemetry text. #0a7a8a is too dark for labels. */
+    --color-telemetry-dim: #052830;    /* Dark blue. Telemetry backgrounds/tints. */
+    --color-alert: #FFB703;            /* Amber. High priority, countdown, boot sequence. */
+    --color-alert-dim: #3d2c00;        /* Dark amber. Alert backgrounds/tints. */
 
-  /* Glow Tokens */
-  --color-accent-glow: rgba(157, 78, 221, 0.25);
-  --color-accent-glow-strong: rgba(157, 78, 221, 0.5);
+    /* Surface Colors (Dark Zone Default - Cool Base) */
+    --color-void: #08080c;              /* Deepest background. Nav, hero, about, footer. */
+    --color-surface: #0e0e14;           /* Default section surface within dark zones. */
+    --color-surface-highlight: #141420; /* Card surfaces in dark zones. */
+    --color-surface-raised: #1a1a26;    /* Elevated elements: dropdowns, tooltips, modals. */
+    --color-surface-inset: #060608;     /* Inset wells: code blocks, terminal windows within cards. */
 
-  /* === SYSTEM ANIMATIONS === */
-  --animate-blink: blink 1s step-end infinite;
-  
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+    /* ============================================================
+     BORDERS — DARK ZONE
+     
+     Three tiers of border visibility.
+     industrial = structural dividers. Crisp but not distracting.
+     subtle     = card borders with purple relationship. The default card edge.
+     dim        = ghost borders. Barely there. Use inside cards for sub-sections.
+    ============================================================ */
+    --color-industrial: rgba(255, 255, 255, 0.07);       /* Structural. Slightly reduced from 0.08. */
+    --color-border-subtle: rgba(157, 78, 221, 0.18);     /* Card edges. Bumped from 0.15 — needs to read. */
+    --color-border-dim: rgba(157, 78, 221, 0.08);        /* Sub-borders, inset edges. Your original. */
+    --color-border-nvy: rgba(70, 84, 100, 0.4);          /* NEW. Navy border for credential cards. */
+    --color-border-grn: rgba(75, 83, 56, 0.4);           /* NEW. Olive border for tag/badge elements. */
+
+    /* GLOW TOKENS (STRICTLY FOR DARK ZONES) */
+    --color-accent-glow: rgba(157, 78, 221, 0.20);       /* Resting glow. Subtle halos. */
+    --color-accent-glow-strong: rgba(157, 78, 221, 0.45); /* Hover/active glow. */
+    --color-accent-glow-bright: rgba(199, 125, 255, 0.35); /* Bright state glow for activated elements. */
+
+    /* System Grids (Dark Zone Default - Rouge Mystique) */
+    --color-grid-base: rgba(157, 78, 221, 0.04);
+    --color-grid-fine: rgba(157, 78, 221, 0.03);
+    
+    /* System States */
+    --color-phosphor-glow: rgba(0, 179, 45, 0.25);       /* For [ OK ] / success glow states. */
+    --color-critical-glow: rgba(255, 49, 49, 0.25);      /* For [ FAIL ] / error glow states. */
+    --color-alert-glow: rgba(255, 183, 3, 0.25);         /* For countdown/alert glow states. */
+
+    /* SPATIAL SYSTEM  */
+    --height-nav: 52px;                /* Top nav height. Compact like Anduril. Not generous. */
+    --width-content: 1200px;           /* Max content width. The column everything lives in. */
+    --width-content-narrow: 860px;     /* Narrower column for text-heavy sections (about, credentials). */
+    --spacing-section: 120px;          /* Standard top/bottom padding for each section. */
+    --spacing-section-sm: 72px;        /* Reduced section padding for denser sections. */
+    --spacing-card: 28px;              /* Internal card padding. Consistent across all cards. */
+
+    /* CORNERS */
+    --radius-none: 0px;
+    --radius-sm: 4px;
+    --radius-DEFAULT: 6px;
+
+    /* ANIMATIONS */
+    --animate-blink: blink 1s step-end infinite;
+    --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;  /* NEW. For active node dot in experience. */
+    --animate-scanline: scanline 10s linear infinite;           /* NEW. Hero CRT effect. See keyframes below. */
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    /* Slow pulse for the [ ACTIVE_NODE ] green dot in experience section */
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--color-phosphor-glow); }
+        50% { opacity: 0.4; box-shadow: none; }
+    }
+
+    /* 
+        Hero CRT scanline — a faint LIGHT band drifting downward.
+        NOT dark lines on dark bg (invisible). A light band instead —
+        reads as a monitor refresh artifact. Hero section only.
+        
+        Note: Apply this to a ::before pseudo-element on the hero section,
+        positioned absolute, pointer-events: none, overflow: hidden.
+    */
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100vh); }
+    }
 }
 
-  /* === ATMOSPHERIC FX === */
+/* ============================================================
+     LIGHT ZONE OVERRIDES (THE ACRNM DOSSIER)
+============================================================ */
+  .zone-light {
+    /* --- SURFACES (Aijiro White Base) --- */
+    --color-surface: #FAFDFC;               
+    --color-surface-highlight: #ffffff;     
+    --color-surface-raised: #ffffff;
+    --color-void: #f0f2f5;                  
+    --color-surface-inset: #e6e9ee;         
+
+    /* --- TYPOGRAPHY (FIXED VARIABLE NAMES) --- */
+    --color-primary-color: #0a0a0a;          /* Jet Black. Forces text to black on light backgrounds. */
+    --color-secondary-color: #465464;        /* Stealth Slate. Tactical blueprint text. */
+    --color-dim-color: rgba(70, 84, 100, 0.6); /* Ghost slate text. */
+
+    /* --- BORDERS (The Blueprint Grid) --- */
+    --color-industrial: rgba(70, 84, 100, 0.15);
+    --color-border-subtle: rgba(70, 84, 100, 0.25);     
+    --color-border-dim: rgba(70, 84, 100, 0.10);        
+    
+    /* Variable names updated to match your new system */
+    --color-border-acrnm-nvy: rgba(70, 84, 100, 0.50);        
+    --color-border-acrnm-grn: rgba(93, 101, 50, 0.6);         
+
+    /* --- GLOWS --- */
+    --color-accent-glow: rgba(4, 3, 72, 0.05);          
+    --color-accent-glow-strong: rgba(4, 3, 72, 0.10);
+
+    /* --- SYSTEM GRIDS --- */
+    --color-grid-base: rgba(70, 84, 100, 0.05);
+    --color-grid-fine: rgba(70, 84, 100, 0.03);
+  }
+
+/* ============================================================
+     ATMOSPHERIC FX (STRICTLY DARK ZONE)
+     
+     CRT SCANLINES
+     Applied exclusively to digital terminal environments (Hero, About, Boot).
+============================================================ */
 .crt-scanlines {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0),
     rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.25) 50%,
-    rgba(0, 0, 0, 0.25)
+    rgba(157, 78, 221, 0.025) 50%  /* 2.5% Rouge Mystique tint. Integrates perfectly with the Cool Base */
   );
   background-size: 100% 4px;
-  pointer-events: none; /* Ensures users can still click links underneath */
-  z-index: 9999;        /* Keeps the glass strictly on top */
+  pointer-events: none;
+  z-index: 9999;
 }
 
-/* === INTERACTIVE FX === */
+/* ============================================================
+   INTERACTIVE FX
+   
+   Glitch stays as-is — it's well-built.
+   Added a usage note: apply sparingly. Nav items, section headers,
+   important CTAs only. Not on every hover state.
+============================================================ */
 .glitch-hover {
-  display: inline-block; /* ensures transforms apply correctly */
+  display: inline-block;
 }
 
-/* When hovered, it runs 'glitch-burst' exactly ONE time.
-  It takes 0.3 seconds, and 'forwards' ensures it stays on the final clean frame.
-*/
 .glitch-hover:hover {
   animation: glitch-burst 0.3s linear forwards;
 }
 
-/* === GRID BACKGROUND === */
-  .bg-grid {
+/* ============================================================
+     GRID BACKGROUNDS (ZONE-AWARE)
+
+     - Dark Zone: Renders as a glowing Rouge Mystique digital grid.
+     - Light Zone: Renders as Stealth Slate physical engineering paper.
+============================================================ */
+.bg-grid {
   background-image:
-    linear-gradient(rgba(157, 78, 221, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(157, 78, 221, 0.04) 1px, transparent 1px);
+    linear-gradient(var(--color-grid-base) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid-base) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 .bg-grid-fine {
   background-image:
-    linear-gradient(rgba(157, 78, 221, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(157, 78, 221, 0.03) 1px, transparent 1px);
+    linear-gradient(var(--color-grid-fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid-fine) 1px, transparent 1px);
   background-size: 8px 8px;
 }
 
-/* === CLIPPED CORNER === */
+/* ============================================================
+   CARD CLIP — Unchanged.
+   Sharp cut corner. One of your strongest design elements. 
+   Keep using this on project cards, lab cards.
+============================================================ */
 .card-clip {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+}
+
+/* NEW — Smaller clip for compact elements like credential cards. */
+.card-clip-sm {
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
 }
 
-@keyframes glitch-burst {
-  0% {
-    text-shadow: none;
-    transform: translate(0, 0);
-  }
-  20% {
-  text-shadow: 2px 0px 0px var(--color-accent-hover), -2px 0px 0px rgba(157, 78, 221, 0.4);
-  transform: translate(-2px, 1px);
-  }
-  40% {
-    text-shadow: -2px 0px 0px var(--color-accent), 2px 0px 0px var(--color-accent-hover);
-    transform: translate(2px, -1px);
-  }
-  60% {
-    text-shadow: 3px 0px 0px var(--color-accent-hover), -1px 0px 0px var(--color-accent);
-    transform: translate(-1px, -2px);
-  }
-  80% {
-    text-shadow: -1px 0px 0px var(--color-accent), 1px 0px 0px var(--color-accent-hover);
-    transform: translate(1px, 2px);
-  }
-  100% {
-    text-shadow: none;
-    transform: translate(0, 0); /* System stabilizes */
-  }
+/* ============================================================
+   STATUS NODE
+   
+   The pulsing active indicator for [ ACTIVE_NODE ] in experience.
+   Converted to a hard square to match the physical hardware aesthetic.
+   Usage: <span class="status-dot status-dot--active"></span>
+============================================================ */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  /* Removed border-radius: 50%. Hardware LEDs are square. */
 }
 
-/* === TACTICAL DEPLOYMENT (SCROLL REVEALS) === */
+.status-dot--active {
+  background-color: var(--color-phosphor);
+  animation: var(--animate-pulse-slow);
+}
+
+.status-dot--accent {
+  background-color: var(--color-accent);
+  animation: var(--animate-pulse-slow);
+}
+
+.status-dot--inactive {
+  background-color: var(--color-text-dim);
+}
+
+/* ============================================================
+   SCROLL REVEALS
+============================================================ */
 .deploy-hidden {
   opacity: 0;
-  transform: translateY(40px); /* Starts slightly lower */
-  /* cubic-bezier creates the fast-snap */
-  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  transform: translateY(20px);        /* Was 40px — reduced for precision over drama. */
+  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* Removed overshoot. */
   will-change: opacity, transform;
 }
 
@@ -138,14 +256,27 @@
   transform: translateY(0);
 }
 
-/* === THE HARDWARE HANDSHAKE (HORIZONTAL TRACES) === */
+/* 
+  Staggered deploy for child elements within a revealed container.
+  Apply .deploy-stagger to a parent, children auto-delay.
+  Usage: wrap card grids, list items, credential entries.
+*/
+.deploy-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.deploy-stagger > *:nth-child(2) { transition-delay: 80ms; }
+.deploy-stagger > *:nth-child(3) { transition-delay: 160ms; }
+.deploy-stagger > *:nth-child(4) { transition-delay: 240ms; }
+.deploy-stagger > *:nth-child(5) { transition-delay: 320ms; }
+
+/* ============================================================
+   TRACE CONNECTOR
+============================================================ */
 .trace-connector {
   position: absolute;
-  right: 100%;       /* anchors it to the left side of header */
-  margin-right: 1rem; /* small gap between the text and the wire */
+  right: 100%;
+  margin-right: 1rem;
   top: 50%;
   height: 2px;
-  width: 50vw;       /* long enough to reach the vertical line on the left edge */
+  width: 50vw;
   background: linear-gradient(
     to left,
     var(--color-accent),
@@ -153,15 +284,47 @@
     transparent
   );
   box-shadow: 0 0 6px var(--color-accent-glow);
-  
   transform-origin: right;
-  transform: scaleX(0); /* hidden by default */
-  
-  /* The 0.4s delay ensures it waits for the section to snap up FIRST */
+  transform: scaleX(0);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
 }
 
-/* When the parent section deploys, shoot the wire out */
 .deploy-visible .trace-connector {
   transform: scaleX(1);
+}
+
+/* ============================================================
+   GLITCH KEYFRAMES (STRICTLY DARK ZONE)
+   
+   Digital screen artifact. Use sparingly: nav items, hero headers,
+   important interactive elements in the dark terminal environment only.
+   
+   WARNING: Do not apply to the Light Zone. Physical printed 
+   documents do not glitch.
+============================================================ */
+@keyframes glitch-burst {
+  0% {
+    text-shadow: none;
+    transform: translate(0, 0);
+  }
+  20% {
+    text-shadow: 2px 0px 0px var(--color-accent-bright), -2px 0px 0px rgba(157, 78, 221, 0.4);
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    text-shadow: -2px 0px 0px var(--color-accent), 2px 0px 0px var(--color-accent-bright);
+    transform: translate(2px, -1px);
+  }
+  60% {
+    text-shadow: 3px 0px 0px var(--color-accent-bright), -1px 0px 0px var(--color-accent);
+    transform: translate(-1px, -2px);
+  }
+  80% {
+    text-shadow: -1px 0px 0px var(--color-accent), 1px 0px 0px var(--color-accent-bright);
+    transform: translate(1px, 2px);
+  }
+  100% {
+    text-shadow: none;
+    transform: translate(0, 0);
+  }
 }

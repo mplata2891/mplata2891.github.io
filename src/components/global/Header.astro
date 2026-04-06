@@ -1,109 +1,73 @@
 ---
 // src/components/global/Header.astro
+import SocialIcon from '../icons/SocialIcons.astro';
 import { HEADER } from '../../data/header.js';
 
-// Abstracted classes to clean up the HTML layer
+const iconLinkStyle = [
+  "text-primary-color opacity-40 group-hover:text-accent-bright group-hover:opacity-100", 
+  "transition-all duration-300 w-5 h-5 block"
+].join(" ");
+
 const linkStyle = [
-  "font-mono text-sm text-text-secondary uppercase",
-  "tracking-widest hover:text-accent-hover transition-colors",
-  "glitch-hover"
+  "font-section-description text-base font-medium text-primary-color", 
+  "hover:text-accent-bright transition-colors duration-300", 
+  "flex items-center gap-2 group" 
 ].join(" ");
 
 const buttonStyle = [
-  "px-4 py-2 border border-industrial font-mono text-sm",
-  "bg-surface text-text-primary uppercase tracking-widest",
-  "hover:border-accent hover:text-accent transition-all",
-  "glitch-hover w-full md:w-auto text-center"
+  "px-6 py-2 border border-accent/50 font-special-ui text-[11px]",
+  "bg-transparent text-primary-color uppercase tracking-[0.15em] font-bold",
+  "hover:bg-accent transition-all duration-300", 
+  "rounded-none shadow-[0_0_10px_transparent] hover:shadow-[0_0_15px_var(--color-accent-glow-strong)]" 
 ].join(" ");
 
-const desktopNav = "hidden md:flex items-center gap-6";
-
-const mobileNav = [
-  "absolute top-full left-0 w-full bg-void border-b",
-  "border-industrial flex-col items-center gap-6 py-6",
-  "hidden z-40 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-].join(" ");
+const desktopNav = "hidden md:flex items-center gap-10";
 ---
 
 <header class:list={[
-  "w-full px-6 py-6 flex justify-between items-center border-b",
-  "border-industrial bg-void/90 backdrop-blur-md z-50 sticky top-0" 
+  "w-full px-10 py-3 flex justify-between items-center",
+  "border-b border-[var(--color-border-subtle)] bg-void/90 backdrop-blur-xl z-50 sticky top-0"
 ]}>
   
-  {/* SYSTEM IDENTITY */}
-  <div class="flex items-center gap-3 group cursor-pointer">
-    <div class:list={[
-      "w-8 h-8 bg-surface border border-industrial flex items-center",
-      "justify-center group-hover:border-accent transition-colors"
-    ]}>
-      <span class="font-mono text-sm text-accent font-bold">
-        {HEADER.initials}
-      </span>
-    </div>
-    <span class:list={[
-      "font-mono text-base tracking-widest text-text-primary",
-      "uppercase hidden md:block"
-    ]}>
+  {/* SYSTEM IDENTITY: Bold and Structural */}
+  <div class="flex items-center gap-6 group cursor-pointer">
+    <span class="font-section-description text-xl text-primary-color font-bold tracking-tight">
+      {HEADER.initials}
+    </span>
+    
+    <div class="h-5 w-[1px] bg-white/10 hidden md:block"></div>
+    
+    <span class="font-special-ui text-[10px] tracking-[0.2em] text-secondary-color uppercase mt-0.5">
       {HEADER.systemName}
     </span>
   </div>
 
-  {/* DESKTOP COMM ARRAY */}
-  <div class={desktopNav}>
+  {/* DESKTOP NAV: Legible & Clean */}
+  <nav class={desktopNav}>
     {HEADER.navLinks.map((link) => (
       <a href={link.url} target="_blank" class={linkStyle}>
-        {link.label}
+        
+        {/* Interactive glitch effect on hover */}
+        <span class="glitch-hover">{link.label}</span>
+        
+        {/* Bulletproof checks: ignores spaces and exact casing */}
+        {link.label.toLowerCase().trim().includes('github') && (
+          <SocialIcon name="github" class={iconLinkStyle} />
+        )}
+        
+        {link.label.toLowerCase().trim().includes('linkedin') && (
+          <SocialIcon name="linkedin" class={iconLinkStyle} />
+        )}
       </a>
     ))}
     <a href={HEADER.actionButton.url} target="_blank" class={buttonStyle}>
       {HEADER.actionButton.label}
     </a>
-  </div>
+  </nav>
 
-  {/* MOBILE HAMBURGER TOGGLE */}
-  <button 
-    id="mobile-menu-btn" 
-    aria-label="Toggle Menu"
-    class:list={[
-      "flex md:hidden flex-col justify-center items-center",
-      "gap-1.5 w-8 h-8 focus:outline-none z-50"
-    ]}
-  >
-    <div class="w-6 h-0.5 bg-accent transition-all duration-300"></div>
-    <div class="w-6 h-0.5 bg-accent transition-all duration-300"></div>
-    <div class="w-6 h-0.5 bg-accent transition-all duration-300"></div>
+  {/* MOBILE HAMBURGER */}
+  <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-1.5">
+    <div class="w-6 h-[2px] bg-primary-color"></div>
+    <div class="w-6 h-[2px] bg-primary-color"></div>
   </button>
-
-  {/* MOBILE DROPDOWN MODULE */}
-  <div id="mobile-menu" class={mobileNav}>
-    {HEADER.navLinks.map((link) => (
-      <a href={link.url} target="_blank" class={linkStyle}>
-        {link.label}
-      </a>
-    ))}
-    <a href={HEADER.actionButton.url} target="_blank" class={buttonStyle}>
-      {HEADER.actionButton.label}
-    </a>
-  </div>
 </header>
-
-<script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-
-  if (btn && menu) {
-    btn.addEventListener('click', () => {
-      // Toggle the dropdown visibility
-      menu.classList.toggle('hidden');
-      menu.classList.toggle('flex');
-      
-      // Animate the hamburger lines into an 'X'
-      const lines = btn.querySelectorAll('div');
-      lines[0].classList.toggle('translate-y-2');
-      lines[0].classList.toggle('rotate-45');
-      lines[1].classList.toggle('opacity-0');
-      lines[2].classList.toggle('-translate-y-2');
-      lines[2].classList.toggle('-rotate-45');
-    });
-  }
-</script>

@@ -5,13 +5,14 @@ import { FOOTER } from "../../data/footer.js";
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="w-full border-t border-[var(--color-border-subtle)] bg-void mt-32 py-8 px-6 lg:px-32">
+<footer class="w-full border-t border-[var(--color-border-subtle)] bg-void mt-32 py-8 px-6 lg:px-32 relative z-10">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
     
     {/* System Status Readout */}
     <div class="flex items-center gap-3">
-      <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-      <p class="font-mono text-xs text-text-secondary uppercase tracking-widest">
+      {/* FIXED: Swapped manual circle for the global hardware node class */}
+      <div class="status-dot status-dot--accent"></div>
+      <p class="font-special-ui text-xs text-secondary-color uppercase tracking-widest">
         {FOOTER.statusText}
       </p>
     </div>
@@ -23,7 +24,7 @@ const currentYear = new Date().getFullYear();
           href={link.url} 
           target={link.url.startsWith('http') ? "_blank" : "_self"} 
           rel={link.url.startsWith('http') ? "noopener noreferrer" : ""} 
-          class="font-mono text-xs text-text-secondary hover:text-accent transition-colors"
+          class="font-special-ui text-xs text-secondary-color hover:text-accent transition-colors glitch-hover"
         >
           {link.label}
         </a>
@@ -31,7 +32,7 @@ const currentYear = new Date().getFullYear();
     </div>
 
     {/* Copyright & Versioning */}
-    <p class="font-mono text-xs text-text-secondary opacity-50">
+    <p class="font-special-ui text-xs text-secondary-color opacity-50">
       © {currentYear} {FOOTER.copyrightInitials} // {FOOTER.systemVersion}
     </p>
 

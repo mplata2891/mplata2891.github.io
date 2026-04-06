@@ -10,6 +10,12 @@ export const DAVITA = {
     uptime: "16+ Years",
     title: "Admin / Inventory Tech / Safety Manager / Preceptor",
     tags: ["HIPAA_COMPLIANCE", "SAFETY_AUDITS"],
+    bridgeSentence: [
+      "Sixteen years in a clinical environment under HIPAA compliance, safety" + 
+      " audits, and cross-functional team coordination built the operational" +
+      " discipline and documentation standards I now apply to engineering" +
+      " systems."
+    ],
     responsibilities: [
       "Maintained HIPAA compliance by securely archiving protected " +
       "health information in proprietary databases.",

@@ -6,7 +6,7 @@ import { ABOUT, ABOUT_DESCRIPTION } from '../data/about.js';
 import HardwareNode from './ui/HardwareNode.astro';
 ---
 
-<section id="about" class="flex flex-col w-full scroll-mt-24 mt-32 deploy-hidden">
+<section id="about" class="bg-void flex flex-col w-full scroll-mt-24 mt-32 deploy-hidden">
   
   {/* SECTION HEADER */}
   <div class="flex items-center mb-8 w-full">
@@ -18,26 +18,25 @@ import HardwareNode from './ui/HardwareNode.astro';
       {/* Hardware Node (Purple Accent) */}
       <HardwareNode class="text-accent hidden lg:block relative z-10 mr-4 bg-void" />
       
-      {/* Display Font (Chakra Petch) */}
-      <h2 class="text-2xl font-display font-bold tracking-tight uppercase text-text-primary">
+      <h2 class="text-4xl font-section-headers tracking-tight uppercase text-primary-color">
         {ABOUT.header}
       </h2>
     </div>
 
-    <div class="h-[1px] flex-grow bg-industrial ml-4"></div>
-    <p class="font-mono text-sm text-text-secondary uppercase ml-4">
+    <div class="h-[1px] flex-grow bg-[var(--color-industrial)] ml-4"></div>
+    <p class="font-special-ui text-sm text-secondary-color uppercase ml-4">
       ID: {ABOUT.sys_id}
     </p>
     
   </div>
 
-  {/* DYNAMIC CONTEXT PARAGRAPH */}
-  <p class="font-sans text-text-secondary leading-relaxed mb-8 w-full">
+  {/* DYNAMIC CONTEXT PARAGRAPH (Strictly acrnm-grn) */}
+  <p class="font-section-description text-acrnm-grn tracking-widest leading-relaxed mb-8 w-full">
     {ABOUT_DESCRIPTION}
   </p>
 
-  {/* MAIN CONTAINER */}
-  <div class="bg-surface border border-industrial p-8 rounded-sm group relative hover:border-accent transition-all duration-300 overflow-hidden">
+  {/* MAIN CONTAINER (Sharp hardware edges, updated border tokens) */}
+  <div class="bg-surface border border-[var(--color-border-subtle)] p-8 group relative hover:border-accent transition-all duration-300 overflow-hidden">
     
     {/* Subtle Purple background glow on hover */}
     <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -47,16 +46,16 @@ import HardwareNode from './ui/HardwareNode.astro';
       {/* LEFT COLUMN: ORIGIN STORY */}
       <div class="lg:col-span-2 flex flex-col gap-6">
         <div class="flex items-center gap-3 mb-2">
-          {/* FUNCTIONAL: Phosphor Green indicates the system/user is currently Active */}
-          <div class="h-2 w-2 rounded-full bg-phosphor animate-pulse shadow-[0_0_8px_var(--color-phosphor)]"></div>
-          <p class="font-mono text-sm text-accent tracking-widest uppercase">
+          {/* FUNCTIONAL: Replaced manual shadow div with global status-dot utility */}
+          <div class="status-dot status-dot--accent"></div>
+          <p class="font-special-ui text-sm text-accent tracking-widest uppercase">
             // [ ORIGIN_STORY ]
           </p>
         </div>
         
         <div class="flex flex-col gap-4">
           {ABOUT.background.map((paragraph) => (
-            <p class="font-sans text-text-primary group-hover:text-text-primary transition-colors leading-relaxed text-md">
+            <p class="font-section-body text-primary-color leading-relaxed text-md tracking-wide">
               {paragraph}
             </p>
           ))}
@@ -65,19 +64,18 @@ import HardwareNode from './ui/HardwareNode.astro';
 
       {/* RIGHT COLUMN: OFFLINE METRICS */}
       <div class="flex flex-col gap-6 lg:border-l lg:border-[var(--color-border-subtle)] lg:pl-8">
-        {/* FUNCTIONAL: Telemetry Blue for secondary tracking data */}
-        <p class="font-mono text-sm text-text-secondary tracking-widest uppercase mb-2">
+        {/* FUNCTIONAL: Telemetry Blue/Slate for secondary tracking data */}
+        <p class="font-special-ui text-sm text-secondary-color tracking-widest uppercase mb-2">
           // [ OFFLINE_METRICS ]
         </p>
         
         <div class="flex flex-col gap-4">
           {ABOUT.offline_metrics.map((metric) => (
-            <div class="border-b border-industrial/50 pb-4 last:border-0 group/metric">
-              {/* Category label lights up purple when hovering over the specific metric */}
-              <p class="font-mono text-xs text-text-secondary uppercase mb-1 group-hover/metric:text-accent transition-colors">
-                > {metric.category}
+            <div class="border-b border-[var(--color-industrial)] pb-4 last:border-0 group/metric">
+              <p class="font-special-ui text-xs text-secondary-color uppercase mb-1 group-hover/metric:text-accent transition-colors">
+                {metric.category}
               </p>
-              <p class="font-sans text-sm text-text-primary leading-relaxed">
+              <p class="font-section-body text-sm text-primary-color leading-relaxed">
                 {metric.details}
               </p>
             </div>

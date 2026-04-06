@@ -4,14 +4,14 @@ import wallFollowerSnippet from './wall_follower.py?raw';
 
 export const f1tenthProject = {
   id: "F1TENTH_RACING",
-  category: "Autonomous Robotics // Senior Design",
+  category: "HARDWARE_EMBEDDED",
   title: "F1TENTH Autonomous Racing Platform",
   span: "md:col-span-2",
   status: "PROTOTYPE",
   role: "Systems Integrator",
   description: `Engineered a 1/10th scale autonomous racing vehicle utilizing a ROS2 Humble software architecture deployed on an NVIDIA Jetson Orin Nano. Integrated modular hardware including a VESC 6 MKV motor controller, Intel RealSense camera, and Hokuyo LiDAR to facilitate real-time environmental data processing.`,
   impact: `Migrated legacy systems to ROS2 Humble, significantly improving real-time performance and Quality of Service (QoS) handling for high-frequency sensor data. Authored comprehensive system documentation to streamline onboarding and subsystem communication for future engineering teams.`,
-  tags: ["ROS2 HUMBLE", "NVIDIA JETSON", "SLAM TOOLBOX", "PYTHON", "C++"],
+  tags: ["SENIOR DESIGN", "ROS2 HUMBLE", "NVIDIA JETSON", "SLAM TOOLBOX", "PYTHON", "C++"],
   
   subsystems: [
     {

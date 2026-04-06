@@ -3,91 +3,85 @@
 import { Code } from 'astro:components';
 const { project } = Astro.props;
 
-// Style Abstractions
-const baseCardStyle = [
-  "border border-[var(--color-border-subtle)] p-8 card-clip group relative flex flex-col",
-  "hover:border-accent hover:shadow-[0_0_20px_var(--color-accent-glow)]",
-  "transition-all duration-300 overflow-hidden bg-surface",
-  project.span
-].join(" ");
+let statusColor = "bg-phosphor";
 
-const categoryStyle = [
-  "font-mono text-sm text-accent tracking-widest uppercase"
-].join(" ");
-
-const statusStyle = [
-  "font-mono text-xs text-text-primary bg-industrial/20 px-2 py-1 rounded-sm border border-[var(--color-border-subtle)] uppercase"
-].join(" ");
-
-// DISPLAY FONT (Chakra Petch) for the heavy project title
-const titleStyle = [
-  "text-2xl font-display font-bold tracking-wide mb-2 text-text-primary transition-colors",
-  "group-hover:text-accent"
-].join(" ");
+const statusUpper = project.status.toUpperCase();
+if (statusUpper.includes("PROTOTYPE")) {
+  statusColor = "bg-accent";
+} else if (statusUpper.includes("IN_DEV") || statusUpper.includes("DEVELOPMENT")) {
+  statusColor = "bg-alert";
+}
 ---
 
-<div class={baseCardStyle}>
-  
-  {/* The Cyberpunk Carbon Fiber Texture Overlay */}
-  <div class="absolute inset-0 pointer-events-none bg-grid"></div>
+<article class:list={[
+  "border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
+  "shadow-[6px_6px_0px_var(--color-secondary-color)] transition-all duration-300",
+  "hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]",
+  project.span
+]}>
 
-  <div class="relative z-10 flex flex-col h-full">
+  <div class="bg-acrnm-blk border-b border-acrnm-blk p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
     
-    {/* --- HEADER --- */}
-    <div class="flex justify-between items-start mb-6">
-      <div>
-        <p class={categoryStyle}>{project.category}</p>
+    <div class="absolute top-0 left-0 right-0 h-[3px] bg-acrnm-blk"></div>
+
+    <div class="relative z-10 w-full">
+      <div class="flex justify-between items-start mb-4">
+        <p class="font-special-ui text-sm text-[#FAFDFC] tracking-widest uppercase">[{project.category}]</p>
+        
+        <div class="flex items-center gap-3">
+          <span class="font-special-ui text-xs text-[#FAFDFC] border border-[#FAFDFC]/20 bg-white/5 px-2 py-0.5 uppercase tracking-widest">
+            {project.status}
+          </span>
+          <div class={`h-2 w-2 rounded-none ${statusColor} animate-pulse`}></div>
+        </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span class={statusStyle}>{project.status}</span>
-        {/* FUNCTIONAL: Phosphor Green indicating an Active/Deployed System */}
-        <div class="h-1.5 w-1.5 bg-phosphor rounded-full animate-pulse shadow-[0_0_8px_var(--color-phosphor)]"></div>
-      </div>
+
+      <h3 class="text-3xl font-section-headers tracking-wide mb-1 text-[#FAFDFC] uppercase">
+        {project.title}
+      </h3>
+      <p class="font-special-ui text-sm text-[#FAFDFC]/60 uppercase tracking-widest">
+        // ROLE: {project.role}
+      </p>
     </div>
+  </div>
 
-    {/* --- TITLE & ROLE --- */}
-    <h3 class={titleStyle}>{project.title}</h3>
-    <p class="font-mono text-sm text-accent mb-6">
-      >> ROLE: {project.role}
-    </p>
-    
-    {/* --- BODY --- */}
-    <div class="flex-grow flex flex-col gap-6">
+  <div class="p-6 flex-grow flex flex-col gap-6 relative">
+
+    <div class="relative z-10 flex flex-col gap-6">
       
       <div>
-        <h4 class="font-mono text-sm text-text-secondary mb-2">// SYS_DESCRIPTION</h4>
-        {/* SANS FONT (Inter) for maximum readability */}
-        <p class="font-sans text-text-primary leading-relaxed text-sm">
+        <h4 class="font-section-description text-sm text-secondary-color mb-2 tracking-widest uppercase">// SYS_DESCRIPTION</h4>
+        <p class="font-section-body text-primary-color leading-relaxed text-sm">
           {project.description}
         </p>
       </div>
 
       <div>
-        <h4 class="font-mono text-sm text-text-secondary mb-2">// MEASURABLE_IMPACT</h4>
-        <p class="font-sans text-text-primary leading-relaxed text-sm">
+        <h4 class="font-section-description text-sm text-secondary-color mb-2 tracking-widest uppercase">// MEASURABLE_IMPACT</h4>
+        <p class="font-section-body text-primary-color leading-relaxed text-sm">
           {project.impact}
         </p>
       </div>
 
-      {/* --- SUBSYSTEMS ACCORDION --- */}
       {project.subsystems && (
-        <div class="flex flex-col gap-2 mt-4">
-          <h4 class="font-mono text-sm text-text-secondary mb-2">// TECHNICAL_SUBSYSTEMS</h4>
+        <div class="flex flex-col gap-2 mt-2">
+          <h4 class="font-section-description text-sm text-secondary-color mb-2 tracking-widest uppercase">// TECHNICAL_SUBSYSTEMS</h4>
           
           {project.subsystems.map((sub) => (
-            <details class="border border-[var(--color-border-subtle)] bg-void rounded-sm group/accordion overflow-hidden">
-              <summary class="font-mono text-xs text-text-primary px-4 py-3 cursor-pointer select-none hover:text-accent hover:bg-surface-highlight transition-colors flex justify-between items-center">
-                <span>[+] {sub.name}</span>
+            <details class="border border-[var(--color-border-subtle)] bg-void group/accordion overflow-hidden">
+              <summary class="font-special-ui text-xs text-primary-color px-4 py-3 cursor-pointer select-none hover:text-secondary-color transition-colors flex justify-between items-center bg-void border-b border-[var(--color-border-subtle)]">
+                <span class="tracking-widest">[+] {sub.name}</span>
               </summary>
               
-              <div class="p-4 border-t border-[var(--color-border-subtle)] flex flex-col gap-4 bg-surface/50">
-                <p class="font-sans text-sm text-text-secondary leading-relaxed">
-                  {sub.description}
-                </p>
+              <div class="p-0 flex flex-col bg-void">
+                <div class="p-4 bg-void border-b border-[var(--color-border-subtle)]">
+                  <p class="font-section-body text-sm text-primary-color leading-relaxed">
+                    {sub.description}
+                  </p>
+                </div>
                 
-                {/* Embedded Code Block */}
-                <div class="bg-[#1e1e2e] p-4 rounded-sm border border-[var(--color-border-subtle)] max-h-64 overflow-y-auto">
-                  <div class="font-mono text-xs [&>pre]:!bg-transparent">
+                <div class="bg-acrnm-blk p-4 max-h-64 overflow-y-auto lab-scrollbar">
+                  <div class="font-special-ui text-xs [&>pre]:!bg-transparent">
                     <Code code={sub.code} lang={sub.lang} theme="catppuccin-mocha" />
                   </div>
                 </div>
@@ -97,20 +91,18 @@ const titleStyle = [
         </div>
       )}
 
-      {/* Tags */}
-      <div class="flex flex-wrap gap-2 mt-auto pt-6">
+      <div class="flex flex-wrap gap-2 mt-auto pt-4">
         {project.tags.map((tag) => (
-          <span class="font-mono text-xs text-text-secondary bg-surface-highlight border border-[var(--color-border-subtle)]/50 px-2 py-1 rounded-sm">
+          <span class="font-special-ui text-xs text-secondary-color border border-[var(--color-border-subtle)] bg-void px-2 py-1 tracking-widest uppercase">
             #{tag}
           </span>
         ))}
       </div>
     </div>
     
-    {/* --- DOCUMENTATION DIRECTORY --- */}
     {project.documents && (
-      <div class="mt-8 pt-6 border-t border-[var(--color-border-subtle)] flex flex-col gap-4">
-        <h4 class="font-mono text-sm text-text-secondary">// ATTACHED_ASSETS</h4>
+      <div class="relative z-10 mt-6 pt-6 border-t border-[var(--color-border-subtle)] flex flex-col gap-4">
+        <h4 class="font-section-description text-sm text-secondary-color tracking-widest uppercase">// ATTACHED_ASSETS</h4>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {project.documents.map((doc) => (
@@ -118,18 +110,17 @@ const titleStyle = [
               href={doc.url} 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="flex flex-col p-3 border border-[var(--color-border-subtle)] bg-surface-highlight hover:border-accent hover:bg-accent/5 transition-colors group/doc rounded-sm"
+              class="flex flex-col p-3 border border-[var(--color-border-subtle)] bg-surface hover:border-secondary-color transition-colors group/doc"
             >
-              <div class="flex justify-between items-start mb-1">
-                <span class={`font-mono text-[10px] px-1.5 py-0.5 rounded-sm border ${doc.type === 'OFFICIAL_REPORT' ? 'border-accent/50 text-accent' : 'border-text-secondary/50 text-text-secondary'}`}>
+              <div class="flex justify-between items-start mb-2">
+                <span class="font-special-ui text-[10px] px-1.5 py-0.5 tracking-widest border border-[var(--color-border-subtle)] text-secondary-color">
                   {doc.type}
                 </span>
-                <span class="text-text-secondary group-hover/doc:text-accent transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <span class="text-secondary-color transition-colors group-hover/doc:text-primary-color">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 </span>
               </div>
-              {/* SANS FONT (Inter) for the readable document title */}
-              <span class="font-sans text-sm font-semibold text-text-primary group-hover/doc:text-accent transition-colors">
+              <span class="font-section-body text-sm font-semibold text-primary-color transition-colors group-hover/doc:text-secondary-color">
                 {doc.title}
               </span>
             </a>
@@ -138,21 +129,20 @@ const titleStyle = [
       </div>
     )}
 
-    {/* Action Links */}
     {(project.repoUrl || project.liveUrl || project.demoUrl) && (
-      <div class="flex flex-wrap gap-6 mt-2">
+      <div class="relative z-10 flex flex-wrap gap-6 mt-4 pt-4 border-t border-[var(--color-border-subtle)]">
         {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-text-secondary hover:text-accent transition-colors">
+          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
             [ SOURCE_CODE ]
           </a>
         )}
         {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-text-secondary hover:text-accent transition-colors">
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
             [ LIVE_SITE ]
           </a>
         )}
         {project.demoUrl && (
-          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="font-mono text-sm text-text-secondary hover:text-accent transition-colors">
+          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
             [ SYSTEM_DEMO ]
           </a>
         )}
@@ -160,4 +150,4 @@ const titleStyle = [
     )}
 
   </div>
-</div>
+</article>

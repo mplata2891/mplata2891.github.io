@@ -2,11 +2,11 @@
 // src/components/system/BootScreen.astro
 ---
 
-<div id="boot-screen" class="fixed inset-0 z-[9999] bg-void bg-grid flex flex-col justify-center p-6 md:p-12 font-mono text-sm md:text-base pointer-events-auto transition-opacity duration-500">
+<div id="boot-screen" class="fixed inset-0 z-[9999] bg-void bg-grid flex flex-col justify-center p-6 md:p-12 font-special-ui text-sm md:text-base pointer-events-auto transition-opacity duration-500">
   <div class="max-w-3xl w-full mx-auto flex flex-col gap-1">
     
     {/* The container where the logs will be injected */}
-    <div id="boot-log" class="flex flex-col gap-1 text-text-secondary"></div>
+    <div id="boot-log" class="flex flex-col gap-1 text-secondary-color"></div>
     
     {/* The active terminal cursor */}
     <div 

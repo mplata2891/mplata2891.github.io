@@ -1,72 +1,82 @@
 ---
-// src/components/ExperienceCard.astro
+// src/components/section-cards/ExperienceCard.astro
 const { job } = Astro.props;
 ---
 
-<article class="bg-surface border border-industrial p-8 rounded-sm group relative hover:border-accent transition-all duration-300 overflow-hidden h-full">
+<article class:list={[
+  "border-2 border-secondary-color bg-surface p-8 relative group transition-all duration-300",
+  "shadow-[6px_6px_0px_var(--color-secondary-color)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]",
+  "overflow-hidden h-full flex flex-col"
+]}>
   
-  {/* Decorative Active Indicator Line */}
-  {job.statusNode === "[ ACTIVE_NODE ]" && (
-     <div class="absolute left-0 top-0 bottom-0 w-1 bg-accent/20 group-hover:bg-accent transition-colors duration-300 shadow-[0_0_8px_var(--color-accent)]"></div>
-  )}
-
   <div class="relative z-10 flex flex-col md:flex-row gap-8 pl-2">
     
-    {/* Left Column: Metadata */}
     <div class="md:w-1/3 flex flex-col gap-4">
-      {/* STATUS */}
-      <p class={`font-mono text-sm tracking-widest uppercase ${job.statusNode === '[ ACTIVE_NODE ]' ? 'text-phosphor' : 'text-text-secondary'}`}>
-        {job.statusNode}
-      </p>
       
-      {/* COMPANY & LOCATION */}
+      <div class="flex items-center gap-2">
+        {job.statusNode === '[ ACTIVE_NODE ]' && (
+          <span class="w-2 h-2 rounded-none bg-accent animate-pulse shadow-[0_0_8px_var(--color-accent)]"></span>
+        )}
+        <p class:list={[
+          "font-special-ui text-sm tracking-widest uppercase mt-0.5",
+          job.statusNode === '[ ACTIVE_NODE ]' ? 'text-primary-color font-bold' : 'text-secondary-color'
+        ]}>
+          {job.statusNode}
+        </p>
+      </div>
+      
       <div>
-        {/* Chakra Petch for the heavy company name */}
-        <h3 class="text-xl font-display font-bold text-text-primary tracking-wide">
+        <h3 class="text-xl font-section-headers text-primary-color uppercase tracking-wide">
           {job.company}
         </h3>
-        <p class="font-mono text-sm text-text-secondary uppercase mt-1">
+        <p class="font-special-ui text-sm text-secondary-color uppercase mt-1 tracking-widest">
           // LOC: {job.location}
         </p>
       </div>
       
-      {/* TIMELINE */}
       <div>
-        {/* Telemetry Blue for time data */}
-        <p class="font-mono text-sm text-text-secondary uppercase">
+        <p class="font-special-ui text-sm text-secondary-color uppercase tracking-widest">
           {job.dates}
         </p>
-        <p class="font-mono text-xs text-text-primary bg-industrial/20 px-2 py-1 inline-block mt-2 rounded-sm border border-industrial uppercase">
+        
+        <p class="font-special-ui text-xs text-secondary-color bg-void px-2 py-1 inline-block mt-2 border border-[var(--color-border-subtle)] uppercase tracking-widest">
           Uptime: {job.uptime}
         </p>
       </div>
       
-      {/* TAGS */}
       <div class="flex flex-wrap gap-2 mt-2">
         {job.tags.map((tag) => (
-          <span class="px-2 py-1 bg-void border border-industrial/50 text-xs font-mono text-text-secondary uppercase">
+          <span class="px-2 py-1 bg-void border border-[var(--color-border-subtle)] text-xs font-special-ui text-secondary-color uppercase tracking-widest">
             #{tag}
           </span>
         ))}
       </div>
     </div>
 
-    {/* Right Column: Execution Details */}
-    <div class="md:w-2/3 md:border-l border-industrial md:pl-8">
+    <div class="md:w-2/3 md:border-l border-[var(--color-border-subtle)] md:pl-8">
       
-      {/* Chakra Petch for the Job Title */}
-      <h4 class="text-lg md:text-xl font-display font-bold mb-6 text-text-primary uppercase tracking-wide">
+      <h4 class="text-lg md:text-xl font-section-headers mb-6 text-primary-color uppercase tracking-wide">
         {job.title}
       </h4>
+
+      {job.bridgeSentence && (
+        <div class="mb-6 p-4 bg-acrnm-blk border border-[var(--color-border-subtle)] border-l-2 border-l-secondary-color">
+          <p class="font-special-ui text-xs text-surface/60 mb-1 tracking-widest">
+            // OPERATOR_CONTEXT
+          </p>
+          <p class="font-section-body text-sm text-surface leading-relaxed italic">
+            {job.bridgeSentence}
+          </p>
+        </div>
+      )}
       
-      <ul class="flex flex-col gap-4">
+      <ul class="flex flex-col gap-4 deploy-stagger">
         {job.responsibilities.map((task) => (
-          <li class="flex items-start gap-3 group/item">
-            {/* The signature purple Accent kept here for the interaction hover */}
-            <span class="font-mono text-text-secondary group-hover/item:text-accent transition-colors mt-0.5">>></span>
-            
-            {/* Inter font for maximum readability on paragraphs */}
-            <p class="font-sans text-sm text-text-primary leading-relaxed">
+          <li class="flex items-start gap-3 group/item deploy-hidden">
+            <span class="font-special-ui text-secondary-color mt-0.5 transition-colors group-hover/item:text-primary-color">
+              >>
+            </span>
+            <p class="font-section-body text-sm text-primary-color leading-relaxed">
               {task}
             </p>
           </li>

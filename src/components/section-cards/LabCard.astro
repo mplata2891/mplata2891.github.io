@@ -1,73 +1,87 @@
 ---
-// src/components/LabCard.astro
+// src/components/section-cards/LabCard.astro
 import { Code } from 'astro:components';
 
 const { lab } = Astro.props;
 const modalId = `modal-${lab.id}`;
 ---
 
-{/* 1. OUTER WRAPPER: Hover state is Purple */}
-<article class="bg-void border border-[var(--color-border-subtle)] rounded-sm overflow-hidden flex flex-col relative h-full group hover:border-accent transition-all duration-300">
+{/* OUTER WRAPPER: Neo-Brutalist Offset (Matches ProjectCard) */}
+<article class:list={[
+  "border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
+  "shadow-[6px_6px_0px_var(--color-secondary-color)] transition-all duration-300",
+  "hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]"
+]}>
   
-  {/* --- LOG HEADER --- */}
-  <div class="bg-surface border-b border-[var(--color-border-subtle)] p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-    <div>
+  {/* ========================================== */}
+  {/* ZONE 1: HEADER (Jet Black Hardware Fill)   */}
+  {/* ========================================== */}
+  <div class="bg-acrnm-blk border-b border-acrnm-blk p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
+    
+    <div class="absolute top-0 left-0 right-0 h-[3px] bg-acrnm-blk"></div>
+
+    <div class="relative z-10">
       <div class="flex items-center gap-3 mb-2">
-        {/* Lab ID in Purple */}
-        <span class="font-mono text-sm text-accent">[{lab.id}]</span>
-        <span class="font-mono text-xs uppercase px-2 py-0.5 border border-[var(--color-border-subtle)] text-text-secondary rounded-sm">
+        <span class="font-special-ui text-sm text-surface">[{lab.id}]</span>
+        {/* Purple accent remains for the "Digital Ghost" overlay */}
+        <span class="font-special-ui text-xs uppercase px-2 py-0.5 border border-accent text-accent">
           TYPE: {lab.type}
         </span>
       </div>
-      {/* Chakra Petch (Display) for the Lab Name, interacting with Purple */}
-      <h3 class="text-xl font-display font-bold tracking-wide text-text-primary mb-1 group-hover:text-accent transition-colors">{lab.courseName}</h3>
-      <p class="font-mono text-sm text-text-secondary uppercase">// INSTRUCTOR: {lab.professor}</p>
+      <h3 class="text-2xl font-section-headers tracking-wide text-surface mb-1 uppercase">{lab.courseName}</h3>
+      <p class="font-special-ui text-sm text-surface/60 uppercase">// INSTRUCTOR: {lab.professor}</p>
     </div>
     
-    <div class="flex flex-wrap gap-2 md:max-w-xs justify-start md:justify-end">
+    <div class="flex flex-wrap gap-2 md:max-w-xs justify-start md:justify-end relative z-10">
       {lab.tags.map((tag) => (
-        <span class="font-mono text-xs text-text-secondary bg-industrial/20 px-2 py-1 rounded-sm border border-[var(--color-border-subtle)]/50">
+        <span class="font-special-ui text-xs text-surface bg-white/5 px-2 py-1 border border-surface/20">
           #{tag}
         </span>
       ))}
     </div>
   </div>
 
-  {/* --- LOG BODY --- */}
-  <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
+  {/* ========================================== */}
+  {/* ZONE 2: BODY (Light Surface)               */}
+  {/* ========================================== */}
+  {/* Removed the heavy green left border */}
+  <div class="bg-surface p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
     
     {/* LEFT COLUMN: Text Content */}
     <div class="flex flex-col gap-6">
       <div>
-        <h4 class="font-mono text-sm text-text-secondary mb-2">// THE_PROBLEM</h4>
-        <p class="font-sans text-text-primary leading-relaxed text-sm">{lab.problem}</p>
+        <h4 class="font-section-description tracking-widest text-sm text-secondary-color mb-2 uppercase">// THE_PROBLEM</h4>
+        <p class="font-section-body text-primary-color leading-relaxed text-sm">{lab.problem}</p>
       </div>
       <div>
-        <h4 class="font-mono text-sm text-accent mb-2">// THE_SOLUTION</h4>
-        <p class="font-sans text-text-primary leading-relaxed text-sm">{lab.solution}</p>
+        <h4 class="font-section-description tracking-widest text-sm text-secondary-color mb-2 uppercase">// THE_SOLUTION</h4>
+        <p class="font-section-body text-primary-color leading-relaxed text-sm">{lab.solution}</p>
       </div>
     </div>
 
-    {/* RIGHT COLUMN: Code / Hardware Render */}
+    {/* RIGHT COLUMN: The Terminal Inset */}
     <div class="flex flex-col h-full">
       
-      {/* SOFTWARE RENDER */}
+      {/* ========================================== */}
+      {/* ZONE 3: TERMINAL INSET (Dark Void)         */}
+      {/* ========================================== */}
       {lab.type === 'software' && (
-        <div class="bg-surface border border-[var(--color-border-subtle)] rounded-sm p-0 w-full flex flex-col h-full group/terminal hover:border-accent/50 transition-colors">
-          <div class="flex justify-between items-center px-4 py-2 border-b border-[var(--color-border-subtle)] bg-surface-highlight">
-            <p class="font-mono text-xs text-phosphor uppercase">
-              {lab.primaryLanguage} | <a href={lab.repoUrl} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">view_repo</a>
+        <div class="bg-acrnm-blk border border-[var(--color-border-subtle)] p-0 w-full flex flex-col h-full group/terminal">
+          
+          {/* Terminal Header Bar */}
+          <div class="flex justify-between items-center px-4 py-2 border-b border-[var(--color-border-subtle)] bg-[#121212]">
+            <p class="font-special-ui text-xs text-secondary-color uppercase">
+              {lab.primaryLanguage} | <a href={lab.repoUrl} target="_blank" rel="noopener noreferrer" class="text-secondary-color hover:text-accent transition-colors">view_repo</a>
             </p>
             <div class="flex gap-2">
-              <div class="w-2 h-2 rounded-full bg-industrial"></div>
-              <div class="w-2 h-2 rounded-full bg-industrial"></div>
-              {/* FUNCTIONAL: Keeping the Phosphor Green LED here to indicate "System Active" */}
-              <div class="w-2 h-2 rounded-full bg-phosphor animate-pulse shadow-[0_0_8px_var(--color-phosphor)]"></div>
+              <div class="w-2 h-2 rounded-none bg-industrial"></div>
+              <div class="w-2 h-2 rounded-none bg-industrial"></div>
             </div>
           </div>
           
-          <div class="p-4 bg-[#282a36] h-64 overflow-y-auto lab-scrollbar">
-            <div class="font-mono text-xs [&>pre]:!bg-transparent [&>pre]:whitespace-pre-wrap">
+          {/* Code Body */}
+          <div class="p-4 bg-acrnm-blk h-64 overflow-y-auto lab-scrollbar">
+            <div class="font-special-ui text-xs [&>pre]:!bg-transparent [&>pre]:whitespace-pre-wrap">
               <Code code={lab.codeSnippet} lang={lab.primaryLanguage} theme="dracula" />
             </div>
           </div>
@@ -75,9 +89,10 @@ const modalId = `modal-${lab.id}`;
           {lab.fullCode && (
             <button 
               onclick={`document.getElementById('${modalId}').showModal()`}
-              class="w-full mt-auto py-3 border-t border-[var(--color-border-subtle)] bg-surface-highlight hover:bg-accent/10 transition-colors font-mono text-xs text-text-secondary text-center uppercase tracking-widest group/btn"
+              class="w-full mt-auto py-3 border-t border-[var(--color-border-subtle)] bg-[#121212] hover:bg-accent/10 transition-colors font-special-ui text-xs text-accent text-center uppercase tracking-widest flex justify-center items-center gap-2 group/btn"
             >
-              <span class="group-hover/btn:text-accent-hover transition-colors">>> EXPAND_FULL_CODE</span>
+              <span>>> EXPAND_FULL_CODE</span>
+              <span class="w-2 h-4 bg-accent animate-blink opacity-0 group-hover/btn:opacity-100"></span>
             </button>
           )}
         </div>
@@ -85,20 +100,17 @@ const modalId = `modal-${lab.id}`;
 
       {/* HARDWARE RENDER */}
       {lab.type === 'hardware' && (
-        <div class="flex flex-col gap-4 h-full justify-between">
-          <div class="border border-[var(--color-border-subtle)] bg-surface p-2 rounded-sm relative group/hw overflow-hidden hover:border-accent/50 transition-colors">
-            <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover/hw:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+        <div class="bg-surface border border-[var(--color-border-subtle)] p-2 w-full flex flex-col h-full relative overflow-hidden">
             <img 
               src={lab.schematicAsset} 
               alt={`Schematic for ${lab.courseName}`}
-              class="w-full h-auto object-cover grayscale mix-blend-luminosity group-hover/hw:grayscale-0 transition-all duration-500 relative z-0"
+              class="w-full h-auto object-cover grayscale mix-blend-luminosity hover:grayscale-0 transition-all duration-500"
             />
-          </div>
           
-          <div class="flex flex-wrap gap-2 mt-auto">
-            <span class="font-mono text-xs text-text-secondary uppercase">SPECS:</span>
+          <div class="flex flex-wrap gap-2 mt-auto p-2 bg-surface border-t border-[var(--color-border-subtle)]">
+            <span class="font-special-ui text-xs text-secondary-color uppercase">SPECS:</span>
             {lab.hardwareSpecs?.map((spec) => (
-              <span class="font-mono text-xs text-accent bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-sm">
+              <span class="font-special-ui text-xs text-primary-color border border-[var(--color-border-subtle)] px-2 py-0.5">
                 {spec}
               </span>
             ))}
@@ -112,37 +124,36 @@ const modalId = `modal-${lab.id}`;
   {lab.type === 'software' && lab.fullCode && (
     <dialog 
       id={modalId} 
-      class="fixed inset-0 m-auto w-11/12 max-w-5xl bg-void/40 backdrop-blur-2xl border border-white/10 border-t-2 border-t-accent rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.5)] text-text-primary backdrop:bg-black/80 backdrop:backdrop-blur-sm p-0 overflow-hidden"
+      class="fixed inset-0 m-auto w-11/12 max-w-5xl bg-void/40 backdrop-blur-2xl border border-white/10 border-t-2 border-t-accent rounded-none shadow-[0_8px_32px_rgba(0,0,0,0.5)] text-primary-color backdrop:bg-black/80 backdrop:backdrop-blur-sm p-0 overflow-hidden"
     >
-      <div class="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-surface/30 z-10">
+      <div class="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-[#121212]/90 z-10">
         <div class="flex items-center gap-4">
-          <div class="flex gap-1.5">
-            <div class="w-2 h-2 rounded-full bg-[var(--color-border-subtle)]"></div>
-            <div class="w-2 h-2 rounded-full bg-[var(--color-border-subtle)]"></div>
-            <div class="w-2 h-2 rounded-full bg-accent animate-pulse"
-              style="box-shadow: 0 0 6px var(--color-accent-glow);"></div>
+          <div class="flex gap-1.5 items-center">
+            <div class="w-2 h-2 rounded-none bg-industrial"></div>
+            <div class="w-2 h-2 rounded-none bg-industrial"></div>
+            {/* FIXED: Replaced manual shadow div with global status-dot utility */}
+            <div class="status-dot status-dot--accent ml-1"></div>
           </div>
-          <p class="font-mono text-xs text-text-secondary mt-0.5 opacity-80 uppercase tracking-widest">
+          <p class="font-special-ui text-xs text-surface/80 mt-0.5 uppercase tracking-widest">
             ~/{lab.courseName.replace(/\s+/g, '_').toLowerCase()}/main.{lab.primaryLanguage}
           </p>
         </div>
         
         <form method="dialog">
-          {/* FUNCTIONAL: Using Critical Red for the Close/Exit button */}
-          <button class="font-mono text-xs text-critical hover:text-void transition-colors px-2 py-1 rounded-sm border border-transparent hover:border-critical bg-transparent hover:bg-critical focus:outline-none">
+          <button class="font-special-ui text-xs text-critical hover:text-void transition-colors px-2 py-1 border border-transparent hover:border-critical bg-transparent hover:bg-critical focus:outline-none">
             [ ESC ] CLOSE
           </button>
         </form>
       </div>
       
-      <div class="p-6 overflow-y-auto max-h-[75vh] bg-[#282a36]/30 lab-scrollbar">
-        <div class="font-mono text-sm [&>pre]:!bg-transparent">
+      {/* Code Body in Modal */}
+      <div class="p-6 overflow-y-auto max-h-[75vh] bg-acrnm-blk/95 lab-scrollbar">
+        <div class="font-special-ui text-sm [&>pre]:!bg-transparent">
           <Code code={lab.fullCode} lang={lab.primaryLanguage} theme="dracula" />
         </div>
       </div>
     </dialog>
   )}
-
 </article>
 
 <style>
@@ -151,12 +162,11 @@ const modalId = `modal-${lab.id}`;
     height: 8px;
   }
   .lab-scrollbar::-webkit-scrollbar-track {
-    background: #1e1e2e; 
+    background: #0a0a0a; 
     border-left: 1px solid rgba(255, 255, 255, 0.05);
   }
   .lab-scrollbar::-webkit-scrollbar-thumb {
-    background: #313244; 
-    border-radius: 4px;
+    background: #465464; 
   }
   .lab-scrollbar::-webkit-scrollbar-thumb:hover {
     background: var(--color-accent); 

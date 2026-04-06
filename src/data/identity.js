@@ -39,18 +39,18 @@ export const IDENTITY = {
   
   // The 1-2 sentence executive summary
   shortBio: [
-    "Recent Computer Engineering graduate building systems across FPGA,", 
-    " embedded software, and robotics."
+    "Recent Computer Engineering graduate bringing a systems-level background to" +
+    " software and infrastructure problems."
   ],
   
   // The longer narrative
   fullBio: [
-    "Experience includes FPGA-based design, embedded C on microcontrollers, and" +
-    " ROS2-based robotics systems, along with a deployed web platform for a" +
-    " live community",
+    "My experience spans embedded development, hardware–software integration," +
+    " robotics, and a live web platform, each connected by a focus on building" +
+    " systems end-to-end and understanding why they work.",
     
-    "Focused on  practical system integration from low-level hardware to" +
-    " higher-level software, with an emphasis on building functional systems," +
-    " clear documentation, and working within team-based environments."
+    "Early in my career and actively growing. I'm looking to contribute to a" +
+    " team that values both execution & learning, and to be challenged by" +
+    " engineers with more experience."
   ]
 };

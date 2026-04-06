@@ -3,7 +3,7 @@ import layoutSnippet from './layout-snippet.astro?raw';
 
 export const tinyLeadersProject = {
   id: "TINY_LEADERS_REBORN",
-  category: "Community Infrastructure // Web Portal",
+  category: "WEB_FULL_STACK",
   title: "Tiny Leaders Reborn Platform",
   
   // Fills exactly half the grid
@@ -16,7 +16,7 @@ export const tinyLeadersProject = {
   
   impact: `Established a centralized, highly scalable platform hosted on Netlify to support a geographically distributed player base. Replaced fragmented social media governance with a unified, version-controlled source of truth.`,
          
-  tags: ["ASTRO", "HTML/CSS", "JAVASCRIPT", "NETLIFY", "GIT"],
+  tags: ["WEB PORTAL", "ASTRO", "HTML/CSS", "JAVASCRIPT", "NETLIFY", "GIT"],
   
   // just one subsystem to show off front-end architecture
   subsystems: [

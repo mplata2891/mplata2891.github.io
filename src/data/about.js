@@ -18,7 +18,7 @@ export const ABOUT = {
   "My B.S. in Computer Engineering is the result of a 14-year effort built" +
   " alongside a full-time career, raising two kids, and navigating deep personal" +
   " loss. That context isn't an excuse. It's the environment where I developed" +
-  " the discipline to finish hard things.",
+  " the discipline to persevere and see things through.",
 
   "I work at the intersection of hardware and software because that's where the" +
   " interesting problems live. The low-level stuff, the timing constraints, the" +

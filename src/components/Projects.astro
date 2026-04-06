@@ -3,7 +3,18 @@
 import { PROJECTS, PROJECTS_DESCRIPTION } from '../data/projects.js';
 import ProjectCard from './section-cards/ProjectCard.astro';
 import SysCarousel from './system/SysCarousel.astro';
-import HardwareNode from './ui/HardwareNode.astro'; 
+import HardwareNode from './ui/HardwareNode.astro';
+
+const categories = [
+  "ALL", 
+  ...new Set(PROJECTS.map(p => p.category).filter(Boolean))
+];
+
+const activeBtn = "bg-secondary-color/10 border-secondary-color text-secondary-color";
+const inactiveBtn = [
+  "bg-void border-[var(--color-border-subtle)] text-secondary-color",
+  "hover:text-primary-color hover:border-secondary-color"
+].join(" ");
 ---
 
 <section id="projects" class="flex flex-col w-full scroll-mt-24 mb-16 deploy-hidden">
@@ -12,36 +23,59 @@ import HardwareNode from './ui/HardwareNode.astro';
   <div class="flex items-center mb-4 w-full">
     
     <div class="relative flex items-center">
-      {/* The wire shooting left to the main 'bus' */}
       <div class="trace-connector hidden lg:block z-0"></div>
       
-      {/* HARDWARE NODE DESIGN */}
-      <HardwareNode class="text-accent hidden lg:block relative z-10 mr-4 bg-void" />
+      <HardwareNode class="text-acrnm-grn hidden lg:block relative z-10 mr-4 bg-void" />
       
-      {/* Section Title */}
-      <h2 class="text-2xl font-bold tracking-tight uppercase">PROJECTS</h2>
+      <h2 class="text-4xl font-section-headers text-primary-color tracking-tight uppercase">
+        PROJECTS
+      </h2>
     </div>
 
-    {/* Right-side metadata */}
     <div class="h-[1px] flex-grow bg-[var(--color-border-subtle)] ml-4"></div>
-    <p class="font-mono text-sm text-text-secondary uppercase ml-4">
+    <p class="font-special-ui text-sm text-secondary-color uppercase ml-4">
       Deployments_v2.0
     </p>
     
   </div>
 
   {/* DYNAMIC CONTEXT PARAGRAPH */}
-  <p class="text-text-secondary leading-relaxed mb-8 w-full">
+  <p class="font-section-description text-acrnm-nvy tracking-wider leading-relaxed mb-8 w-full">
     {PROJECTS_DESCRIPTION}
   </p>
+
+  {/* FILTER BAR */}
+  <div class="flex flex-wrap gap-4 mb-8" id="project-filters">
+    {categories.map((cat, index) => (
+      <button
+        class:list={[
+          "filter-btn font-special-ui text-sm px-4 py-2 border transition-all rounded-none",
+          index === 0 ? activeBtn : inactiveBtn
+        ]}
+        data-filter={cat}
+      >
+        [ {cat} ]
+      </button>
+    ))}
+  </div>
 
   {/* CAROUSEL */}
   <SysCarousel>
     {PROJECTS.map((project) => (
-      <div class="w-full md:w-[85%] flex-shrink-0 snap-center flex flex-col h-full">
+      <div 
+        class="project-slide w-full md:w-[85%] flex-shrink-0 snap-center flex flex-col h-full transition-opacity duration-300"
+        data-category={project.category}
+      >
         <ProjectCard project={project} />
       </div>
     ))}
   </SysCarousel>
 
 </section>
+
+{/* FILTER LOGIC */}
+<script>
+  import { initFilterBar } from '../scripts/filter_bar.js';
+  
+  initFilterBar();
+</script>

@@ -46,7 +46,7 @@ const createNavHandler = (linkMap, state) => {
  */
 const activateNode = (link) => {
   if (!link) return;
-  link.classList.replace("text-text-secondary", "text-accent");
+  link.classList.replace("text-secondary-color", "text-accent");
   const dot = link.querySelector(".nav-dot");
   dot.classList.add("bg-accent");
   dot.style.boxShadow = "0 0 6px var(--color-accent-glow), 0 0 12px var(--color-accent-glow)";
@@ -57,7 +57,7 @@ const activateNode = (link) => {
  */
 const deactivateNode = (link) => {
   if (!link) return;
-  link.classList.replace("text-accent", "text-text-secondary");
+  link.classList.replace("text-accent", "text-secondary-color");
   const dot = link.querySelector(".nav-dot");
   dot.classList.remove("bg-accent");
   dot.style.boxShadow = "none";

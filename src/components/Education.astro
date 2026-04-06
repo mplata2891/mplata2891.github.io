@@ -1,8 +1,6 @@
 ---
 // src/components/Education.astro
 import { EDUCATION, EDUCATION_DESCRIPTION } from '../data/education.js';
-
-// IMPORT THE HARDWARE NODE
 import HardwareNode from './ui/HardwareNode.astro';
 ---
 
@@ -12,79 +10,70 @@ import HardwareNode from './ui/HardwareNode.astro';
   <div class="flex items-center mb-4 w-full">
     
     <div class="relative flex items-center">
-      {/* The wire shooting left to the main bus */}
       <div class="trace-connector hidden lg:block z-0"></div>
       
-      {/* Hardware Node (Purple Accent) */}
-      <HardwareNode class="text-accent hidden lg:block relative z-10 mr-4 bg-void" />
+      <HardwareNode class="text-secondary-color hidden lg:block relative z-10 mr-4 bg-void" />
       
-      {/* Display Font (Chakra Petch) */}
-      <h2 class="text-2xl font-display font-bold tracking-tight uppercase text-text-primary">
+      <h2 class="text-4xl font-section-headers tracking-tight uppercase text-primary-color">
         CREDENTIALS
       </h2>
     </div>
 
-    {/* Right-side metadata */}
-    <div class="h-[1px] flex-grow bg-industrial ml-4"></div>
-    <p class="font-mono text-sm text-text-secondary uppercase ml-4">
+    <div class="h-[1px] flex-grow bg-[var(--color-border-subtle)] ml-4"></div>
+    <p class="font-special-ui text-sm text-secondary-color uppercase ml-4">
       Base_Parameters_v2.0
     </p>
     
   </div>
 
   {/* DYNAMIC CONTEXT PARAGRAPH */}
-  <p class="font-sans text-text-secondary leading-relaxed mb-8 w-full">
+  <p class="font-section-description text-secondary-color tracking-wider leading-relaxed mb-8 w-full">
     {EDUCATION_DESCRIPTION}
   </p>
 
   {/* THE DATA GRID */}
   <div class="flex flex-col gap-6">
     {EDUCATION.map((edu) => (
-      <div class="bg-surface border border-[var(--color-border-subtle)] p-6 rounded-sm relative group overflow-hidden hover:border-accent transition-all duration-300">
-        
-        {/* Decorative active-state line - Upgraded to glow purple on hover */}
-        <div class="absolute left-0 top-0 bottom-0 w-1 bg-accent/20 group-hover:bg-accent transition-colors duration-300 shadow-[0_0_8px_var(--color-accent)] opacity-0 group-hover:opacity-100"></div>
+      <div class:list={[
+        "border-2 border-secondary-color bg-surface p-6 relative group transition-all duration-300 overflow-hidden",
+        "shadow-[6px_6px_0px_var(--color-secondary-color)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]"
+      ]}>
 
         <div class="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-6">
           <div>
-            {/* ID in Purple */}
-            <p class="font-mono text-sm text-accent mb-2 tracking-widest">[{edu.id}]</p>
+            <p class="font-special-ui text-[10px] text-secondary-color mb-1 tracking-widest">[{edu.id}]</p>
             
-            {/* Chakra Petch for the degrees to give them heavy physical weight */}
+            {/* Degree Title */}
             {edu.degrees.map((degree) => (
-              <h3 class="text-xl font-display font-bold tracking-wide text-text-primary group-hover:text-accent transition-colors uppercase">
+              <h3 class="text-xl font-section-body tracking-widest text-primary-color group-hover:text-secondary-color transition-colors uppercase">
                 {degree}
               </h3>
             ))}
             
-            {/* Institution formatted as a system readout */}
-            <p class="font-mono text-sm text-text-secondary mt-2 uppercase">// INST: {edu.institution}</p>
+            <p class="font-special-ui text-sm text-secondary-color mt-2 uppercase">// INST: {edu.institution}</p>
           </div>
           
           <div class="text-left md:text-right flex flex-col items-start md:items-end">
-            <p class="font-mono text-xs text-text-primary bg-industrial/20 border border-[var(--color-border-subtle)]/50 px-2 py-1 inline-block rounded-sm mb-2 uppercase">
+            <p class="font-special-ui text-xs text-primary-color bg-void border border-[var(--color-border-subtle)] px-2 py-1 inline-block uppercase mb-2">
               {edu.status}
             </p>
-            {/* Telemetry Blue for time/date data */}
-            <p class="font-mono text-sm text-text-secondary block uppercase tracking-widest">{edu.date}</p>
+            <p class="font-special-ui text-sm text-secondary-color block uppercase tracking-widest">{edu.date}</p>
           </div>
         </div>
 
-        {/* Inter font for maximum readability */}
-        <p class="font-sans text-text-primary leading-relaxed text-md mb-8 max-w-3xl">
+        {/* Prose formatting */}
+        <p class="font-section-body text-primary-color leading-relaxed tracking-wider text-md mb-8 max-w-3xl">
           {edu.description}
         </p>
 
-        {/* Dynamic metrics grid (Academic Standing, Honors, etc.) */}
-        <div class="flex flex-wrap gap-x-8 gap-y-4 border-t border-[var(--color-border-subtle)]/50 pt-6 mt-auto">
+        {/* Dynamic metrics grid */}
+        <div class="flex flex-wrap gap-x-8 gap-y-4 border-t border-[var(--color-border-subtle)] pt-6 mt-auto">
           {edu.metrics.map((metric) => (
-            <div class="group/metric">
-              {/* Labels stay dim until you hover over the specific metric */}
-              <p class="font-mono text-xs text-text-secondary uppercase mb-1 group-hover/metric:text-accent transition-colors">
+            <div class="group/metric bg-void border border-[var(--color-border-subtle)] p-3 w-full md:w-auto min-w-[120px]">
+              <p class="font-special-ui text-[10px] text-secondary-color uppercase mb-1 group-hover/metric:text-primary-color transition-colors">
                 // {metric.label}
               </p>
-              {/* Values are JetBrains Mono to look like raw data outputs */}
-              <p class="font-mono text-sm text-text-primary">{metric.value}</p>
+              <p class="font-special-ui text-sm text-primary-color">{metric.value}</p>
             </div>
           ))}
         </div>

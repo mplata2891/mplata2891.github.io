@@ -16,7 +16,6 @@ export const EDUCATION = [
     status: "STATUS: VERIFIED",
     description: "Core coursework covering embedded systems, data architecture, and hardware/software integration protocols.",
     metrics: [
-      { label: "Academic Standing", value: "Good Standing" },
       { label: "Honors", value: "Dean's List (Final Semester)"}
     ]
   },
@@ -31,7 +30,6 @@ export const EDUCATION = [
     status: "STATUS: VERIFIED",
     description: "Foundational computation logic, advanced calculus series, and physics (Mechanics, Electricity & Magnetism).",
     metrics: [
-      { label: "Academic Standing", value: "Good Standing" },
       { label: "Honors", value: "Dean's List (4 Semesters)" }
     ]
   }
