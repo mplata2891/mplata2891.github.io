@@ -4,6 +4,9 @@ import { Code } from 'astro:components';
 
 const { lab } = Astro.props;
 const modalId = `modal-${lab.id}`;
+
+// Safely compute the slug up here to avoid JSX regex parsing errors
+const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
 ---
 
 {/* OUTER WRAPPER: Neo-Brutalist Offset (Matches ProjectCard) */}
@@ -109,7 +112,7 @@ const modalId = `modal-${lab.id}`;
           
           <div class="flex flex-wrap gap-2 mt-auto p-2 bg-surface border-t border-[var(--color-border-subtle)]">
             <span class="font-special-ui text-xs text-secondary-color uppercase">SPECS:</span>
-            {lab.hardwareSpecs?.map((spec) => (
+            {lab.hardwareSpecs && lab.hardwareSpecs.map((spec) => (
               <span class="font-special-ui text-xs text-primary-color border border-[var(--color-border-subtle)] px-2 py-0.5">
                 {spec}
               </span>
@@ -189,7 +192,7 @@ const modalId = `modal-${lab.id}`;
             <div class="status-dot status-dot--accent ml-1"></div>
           </div>
           <p class="font-special-ui text-xs text-surface/80 mt-0.5 uppercase tracking-widest">
-            ~/{lab.courseName.replace(/\s+/g, '_').toLowerCase()}/main.{lab.primaryLanguage}
+            ~/{courseSlug}/main.{lab.primaryLanguage}
           </p>
         </div>
         
