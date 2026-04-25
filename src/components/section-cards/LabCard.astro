@@ -117,8 +117,62 @@ const modalId = `modal-${lab.id}`;
           </div>
         </div>
       )}
+
+      {/* RESEARCH RENDER */}
+      {lab.type === 'research' && (
+        <div class="bg-acrnm-blk border border-[var(--color-border-subtle)] p-0 w-full flex flex-col h-full">
+          
+          {/* Panel Header */}
+          <div class="flex justify-between items-center px-4 py-2 border-b border-[var(--color-border-subtle)] bg-[#121212]">
+            <p class="font-special-ui text-xs text-secondary-color uppercase tracking-widest">
+              // ATTACHED_ASSETS
+            </p>
+            <p class="font-special-ui text-xs text-secondary-color uppercase">
+              ROLE: {lab.role}
+            </p>
+          </div>
+
+          {/* Asset Links */}
+          <div class="flex flex-col gap-0 flex-grow">
+            {lab.attachedAssets?.map((asset) => (
+              
+                href={asset.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border-subtle)] hover:bg-accent/10 transition-colors group/asset"
+              >
+                <div class="flex flex-col gap-0.5">
+                  <span class="font-special-ui text-xs text-accent uppercase tracking-widest">
+                    {asset.type}
+                  </span>
+                  <span class="font-special-ui text-xs text-surface/80">
+                    {asset.label}
+                  </span>
+                </div>
+                <span class="font-special-ui text-xs text-secondary-color group-hover/asset:text-accent transition-colors">
+                  >> OPEN
+                </span>
+              </a>
+            ))}
+          </div>
+
+          {/* Repo Link if present */}
+          {lab.repoUrl && (
+            
+              href={lab.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-auto py-3 border-t border-[var(--color-border-subtle)] bg-[#121212] hover:bg-accent/10 transition-colors font-special-ui text-xs text-accent text-center uppercase tracking-widest flex justify-center items-center gap-2 group/btn"
+            >
+              <span>>> VIEW_TEAM_REPO</span>
+              <span class="w-2 h-4 bg-accent animate-blink opacity-0 group-hover/btn:opacity-100"></span>
+            </a>
+          )}
+        </div>
+      )}
     </div>
   </div>
+
 
   {/* --- TRUE GLASSMORPHIC MODAL --- */}
   {lab.type === 'software' && lab.fullCode && (

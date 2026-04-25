@@ -56,4 +56,31 @@ function example() {
     schematicAsset: link to the asset
   },
 
+  // 3. RESEARCH LAB TEMPLATE
+  {
+    id: "COURSE_CODE",
+    type: "research",
+    courseName: "Full Course Title",
+    professor: "Instructor Name",
+    tags: ["KEYWORD_1", "KEYWORD_2"],
+    role: "Your specific role — Report Author / Researcher / etc.",
+
+    problem: `Describe the research question, study objectives, 
+            or the problem the team was investigating.`,
+
+    solution: `Detail your specific contribution — what you analyzed, 
+            wrote, synthesized, or produced as a deliverable.`,
+
+    repoUrl: "optional — team repo if applicable",
+
+    // Links to documents, reports, data
+    attachedAssets: [
+      {
+        type: "COURSE_REPORT | DATA | PRESENTATION",
+        label: "Display label for the link",
+        url: "/path/to/asset.pdf"
+      }
+    ]
+  }
+
 ========================================================================== */
