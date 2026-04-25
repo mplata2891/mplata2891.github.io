@@ -6,10 +6,10 @@ const { lab } = Astro.props;
 const modalId = `modal-${lab.id}`;
 
 // Safely compute the slug up here to avoid JSX regex parsing errors
-const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
+const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerCase() : 'lab';
 ---
 
-{/* OUTER WRAPPER: Neo-Brutalist Offset (Matches ProjectCard) */}
+{/* OUTER WRAPPER: Neo-Brutalist Offset */}
 <article class:list={[
   "border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
   "shadow-[6px_6px_0px_var(--color-secondary-color)] transition-all duration-300",
@@ -26,7 +26,6 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
     <div class="relative z-10">
       <div class="flex items-center gap-3 mb-2">
         <span class="font-special-ui text-sm text-surface">[{lab.id}]</span>
-        {/* Purple accent remains for the "Digital Ghost" overlay */}
         <span class="font-special-ui text-xs uppercase px-2 py-0.5 border border-accent text-accent">
           TYPE: {lab.type}
         </span>
@@ -36,7 +35,7 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
     </div>
     
     <div class="flex flex-wrap gap-2 md:max-w-xs justify-start md:justify-end relative z-10">
-      {lab.tags.map((tag) => (
+      {lab.tags && lab.tags.map((tag) => (
         <span class="font-special-ui text-xs text-surface bg-white/5 px-2 py-1 border border-surface/20">
           #{tag}
         </span>
@@ -47,7 +46,6 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
   {/* ========================================== */}
   {/* ZONE 2: BODY (Light Surface)               */}
   {/* ========================================== */}
-  {/* Removed the heavy green left border */}
   <div class="bg-surface p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
     
     {/* LEFT COLUMN: Text Content */}
@@ -137,8 +135,8 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
 
           {/* Asset Links */}
           <div class="flex flex-col gap-0 flex-grow">
-            {lab.attachedAssets?.map((asset) => (
-              
+            {lab.attachedAssets && lab.attachedAssets.map((asset) => (
+              <a 
                 href={asset.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -161,7 +159,7 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
 
           {/* Repo Link if present */}
           {lab.repoUrl && (
-            
+            <a 
               href={lab.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -188,11 +186,10 @@ const courseSlug = lab.courseName.replace(/\s+/g, '_').toLowerCase();
           <div class="flex gap-1.5 items-center">
             <div class="w-2 h-2 rounded-none bg-industrial"></div>
             <div class="w-2 h-2 rounded-none bg-industrial"></div>
-            {/* FIXED: Replaced manual shadow div with global status-dot utility */}
             <div class="status-dot status-dot--accent ml-1"></div>
           </div>
           <p class="font-special-ui text-xs text-surface/80 mt-0.5 uppercase tracking-widest">
-            ~/{courseSlug}/main.{lab.primaryLanguage}
+            {"~/" + courseSlug + "/main." + lab.primaryLanguage}
           </p>
         </div>
         
