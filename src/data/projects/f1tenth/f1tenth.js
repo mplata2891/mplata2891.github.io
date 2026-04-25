@@ -8,27 +8,27 @@ export const f1tenthProject = {
   title: "F1TENTH Autonomous Racing Platform",
   span: "md:col-span-2",
   status: "PROTOTYPE",
-  role: "Systems Integrator",
-  description: `Engineered a 1/10th scale autonomous racing vehicle utilizing a ROS2 Humble software architecture deployed on an NVIDIA Jetson Orin Nano. Integrated modular hardware including a VESC 6 MKV motor controller, Intel RealSense camera, and Hokuyo LiDAR to facilitate real-time environmental data processing.`,
-  impact: `Migrated legacy systems to ROS2 Humble, significantly improving real-time performance and Quality of Service (QoS) handling for high-frequency sensor data. Authored comprehensive system documentation to streamline onboarding and subsystem communication for future engineering teams.`,
-  tags: ["SENIOR DESIGN", "ROS2 HUMBLE", "NVIDIA JETSON", "SLAM TOOLBOX", "PYTHON", "C++"],
-  
-  subsystems: [
-    {
-      name: "VESC CDC Interface Node",
-      description: "Established a reliable USB CDC communication bridge between the Jetson Orin Nano and VESC 6 MKV. Translated high-level ROS2 messages into low-level PWM/Servo byte arrays.",
-      code: vescSnippet,
-      lang: "python"
-    },
-    {
-      name: "PID Wall Follower Node",
-      description: "Processed high-frequency LiDAR data arrays (sensor_msgs/LaserScan) to compute spatial error and output corrective steering vectors using a tuned Proportional-Integral-Derivative controller.",
-      code: wallFollowerSnippet,
-      lang: "python"
-    }
-  ],
+  role: "Technical Documentation — VESC Integration (S1) / ROS2 Architecture (S2)",
 
-  // categorized documentation array
+  description: `Multi-semester senior design project building a 1/10th scale 
+  autonomous racing vehicle on a ROS2 Humble architecture deployed on an NVIDIA 
+  Jetson Orin Nano, with a VESC 6 MKV motor controller, Intel RealSense camera, 
+  and Hokuyo LiDAR. The project ran across several semesters with rotating student 
+  teams. My two semesters were consecutive, which put me on both sides of the 
+  knowledge transfer problem.`,
+
+  impact: `First semester I contributed to VESC-to-Jetson interface documentation 
+  alongside a more experienced team member, learning the hardware communication 
+  layer while producing usable technical output. Second semester I returned as 
+  someone with institutional knowledge, and took ownership of ROS2 documentation: 
+  node architecture, migration to ROS2 Humble, simulation setup, and the onboarding 
+  guide written specifically so the next rotating team could get up to speed without 
+  losing ground.`,
+
+  tags: ["SENIOR DESIGN", "ROS2 HUMBLE", "NVIDIA JETSON", "VESC", "PYTHON", "C++"],
+
+  subsystems: [],
+
   documents: [
     {
       title: "Final SDP Group Report",

@@ -39,18 +39,20 @@ export const IDENTITY = {
   
   // The 1-2 sentence executive summary
   shortBio: [
-    "Recent Computer Engineering graduate bringing a systems-level background to" +
-    " software and infrastructure problems."
+    "Recent Computer Engineering graduate with a strong pull toward embedded" +
+    " systems, low-level software, and hardware-software integration."
   ],
   
   // The longer narrative
   fullBio: [
-    "My experience spans embedded development, hardware–software integration," +
-    " robotics, and a live web platform, each connected by a focus on building" +
-    " systems end-to-end and understanding why they work.",
+    "My coursework went deep into microcontrollers, Verilog HDL, and operating" +
+    " systems for embedded applications. Outside of that I've got some project" +
+    " experience with hardware documentation and systems integration, built a" +
+    " live web platform and written implementations in C, C++, Java, and Python.",
     
-    "Early in my career and actively growing. I'm looking to contribute to a" +
-    " team that values both execution & learning, and to be challenged by" +
+    "Early in my career and actively growing. I'm interested in all three layers" +
+    " of computing -- hardware, software and services. I'm looking to contribute" +
+    " to a team that values both execution & learning, and to be challenged by" +
     " engineers with more experience."
   ]
 };

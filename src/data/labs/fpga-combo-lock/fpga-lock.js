@@ -4,20 +4,24 @@ import fullCode from './full-code.v?raw';
 
 export const fpgaLockLab = {
   id: "ECE3300L",
-  type: "software", 
-  courseName: "Digital System Design",
+  type: "hardware",
+  courseName: "Digital Circuit Design",
   professor: "Prof. Mohamed El-Hadedy Aly",
   tags: ["VERILOG", "FPGA", "XILINX VIVADO", "ARTIX-7", "RTL"],
-  
-  problem: `Design a pseudo-random 12-bit combination lock and finite state
-  control system in Verilog for an Artix-7 FPGA.`,
+  role: "Contributing Developer",
 
-  solution: `Modular RTL architecture in Xilinx Vivado. Custom components
-  include Up/Down Counters, Decoders, Muxes, and a Barrel Shifter.
-  Synchronized PRNG modules to the system clock using edge-triggered
-  behavioral logic to process game-state flags.`,
-  
-  primaryLanguage: "verilog",
+  problem: `Group RTL design project implementing a 12-bit pseudo-random 
+  combination lock with a finite state machine controller on an Artix-7 
+  FPGA using Xilinx Vivado.`,
+
+  solution: `The system used modular components including up/down counters, 
+  decoders, muxes, a barrel shifter, and clock-synchronized PRNG modules. 
+  I contributed to the RTL implementation as one of four teammates. The full 
+  codebase is available in the team repository.`,
+
+  hardwareSpecs: ["Artix-7 FPGA", "Xilinx Vivado", "12-bit PRNG", "FSM Controller"],
+  schematicAsset: null,
+
   repoUrl: "https://github.com/Reconfigurable-Computing-CalPoly-Pomona/ECE3300-02-Fall2023/tree/main/Group_Bee",
   
   codeSnippet: snippet,
