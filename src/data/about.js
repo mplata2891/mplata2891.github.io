@@ -20,10 +20,9 @@ export const ABOUT = {
   " loss. That context isn't an excuse. It's the environment where I developed" +
   " the discipline to persevere and see things through.",
 
-  "I work at the intersection of hardware and software because that's where the" +
+  "My interest lies at the intersection of hardware and software because that's where the" +
   " interesting problems live. The low-level stuff, the timing constraints, the" +
-  " register maps, the things that break in ways a debugger can't catch. . ." +
-  " that's where I want to be.",
+  " register maps, the things that break in ways a debugger can't catch.",
 
   "There is no going back. Only execution."
 ],

@@ -7,41 +7,15 @@ import { IDENTITY } from '../data/identity.js';
   class="bg-void min-h-[75vh] flex flex-col justify-center mb-16 relative overflow-hidden"
 >
 
-  {/* CRT OVERLAY — stays fixed on top of everything, not part of parallax */}
+  {/* CRT OVERLAY */}
   <div class="absolute inset-0 pointer-events-none z-50 overflow-hidden">
     <div class="w-full h-[15vh] bg-gradient-to-b from-transparent via-white/5 to-transparent animate-scanline"></div>
     <div class="absolute inset-0 crt-scanlines"></div>
   </div>
 
-  {/* 
-    LAYER 1: DEEP BACKGROUND — absolute, moves slowest
-    Schematic/grid element. data-speed="0.15" means it drifts
-    down at 15% of scroll speed — appears to recede away.
-  */}
-  <div 
-    id="parallax-bg"
-    class="absolute inset-0 z-0 flex justify-end items-center opacity-[0.06] pointer-events-none"
-    data-parallax
-    data-speed="0.15"
-  >
-    <div class="w-[700px] h-[700px] border border-secondary-color border-dashed flex items-center justify-center mr-16">
-      <p class="font-special-ui text-secondary-color tracking-widest text-xs">[ SCHEMATIC_ASSET_PENDING ]</p>
-    </div>
-  </div>
+  {/* CONTENT */}
+  <div class="relative z-10 flex flex-col gap-4 max-w-2xl">
 
-  {/* 
-    LAYER 2: CONTENT — this stays in the flex flow for layout purposes.
-    We apply a very subtle parallax via a wrapper div — the text itself
-    doesn't move much, just enough to feel layered.
-    data-speed="-0.05" means it drifts UP slightly — feels like foreground.
-  */}
-  <div 
-    class="relative z-10 flex flex-col gap-4 max-w-2xl"
-    data-parallax
-    data-speed="-0.05"
-  >
-
-    {/* Status tag */}
     <div class="flex items-center gap-3">
       <div class="status-dot status-dot--accent"></div>
       <p class="font-special-ui font-bold text-secondary-color text-sm tracking-[0.3em] uppercase">
@@ -49,18 +23,18 @@ import { IDENTITY } from '../data/identity.js';
       </p>
     </div>
 
-    {/* Name */}
-    <h1 class="text-6xl md:text-8xl font-section-headers font-light tracking-widest uppercase text-primary-color glitch-hover leading-none">
+    <h1 
+      class="text-6xl md:text-8xl font-section-headers font-light tracking-widest uppercase text-primary-color glitch-hover leading-none"
+      data-scramble
+    >
       {IDENTITY.name}
     </h1>
 
-    {/* Title */}
     <h2 class="text-sm md:text-base font-special-ui text-acrnm-grn tracking-[0.3em] uppercase flex items-center mb-8">
       <span>>computer_engineer</span>
       <span class="text-accent animate-blink font-bold ml-1">_</span>
     </h2>
 
-    {/* Bio */}
     <p class="font-section-body font-medium text-primary-color text-2xl leading-relaxed tracking-wide">
       {IDENTITY.shortBio}
     </p>
@@ -74,42 +48,3 @@ import { IDENTITY } from '../data/identity.js';
   </div>
 
 </section>
-
-<script>
-  function initParallax() {
-    const layers = document.querySelectorAll('[data-parallax]');
-    if (layers.length === 0) return;
-
-    // Cache speed values so we're not reading the DOM on every frame
-    const layerData = Array.from(layers).map(layer => ({
-      el: layer,
-      speed: parseFloat(layer.dataset.speed) || 0
-    }));
-
-    let ticking = false;
-
-    function updateParallax() {
-      const scrolled = window.scrollY;
-
-      layerData.forEach(({ el, speed }) => {
-        const yPos = scrolled * speed;
-        el.style.transform = `translateY(${yPos}px)`;
-      });
-
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateParallax);
-        ticking = true;
-      }
-    }, { passive: true });
-
-    // Run once on init to set correct positions if page loads mid-scroll
-    updateParallax();
-  }
-
-  // Astro fires astro:page-load on initial load AND after view transitions
-  document.addEventListener('astro:page-load', initParallax);
-</script>

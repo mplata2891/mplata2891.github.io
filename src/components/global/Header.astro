@@ -24,13 +24,16 @@ const buttonStyle = [
 const desktopNav = "hidden md:flex items-center gap-10";
 ---
 
+{/* ========================================== */}
+{/* 1. THE HEADER (Z-INDEX 110: Top Level)     */}
+{/* ========================================== */}
 <header class:list={[
-  "w-full px-10 py-3 flex justify-between items-center",
-  "border-b border-[var(--color-border-subtle)] bg-void/90 backdrop-blur-xl z-50 sticky top-0"
+  "w-full px-6 md:px-10 py-3 flex justify-between items-center",
+  "border-b border-[var(--color-border-subtle)] bg-void/90 backdrop-blur-xl z-[110] sticky top-0"
 ]}>
   
-  {/* SYSTEM IDENTITY: Bold and Structural */}
-  <div class="flex items-center gap-6 group cursor-pointer">
+  {/* SYSTEM IDENTITY */}
+  <div class="flex items-center gap-4 md:gap-6 group cursor-pointer">
     <span class="font-section-description text-xl text-primary-color font-bold tracking-tight">
       {HEADER.initials}
     </span>
@@ -42,15 +45,12 @@ const desktopNav = "hidden md:flex items-center gap-10";
     </span>
   </div>
 
-  {/* DESKTOP NAV: Legible & Clean */}
+  {/* DESKTOP NAV */}
   <nav class={desktopNav}>
     {HEADER.navLinks.map((link) => (
       <a href={link.url} target="_blank" class={linkStyle}>
-        
-        {/* Interactive glitch effect on hover */}
         <span class="glitch-hover">{link.label}</span>
         
-        {/* Bulletproof checks: ignores spaces and exact casing */}
         {link.label.toLowerCase().trim().includes('github') && (
           <SocialIcon name="github" class={iconLinkStyle} />
         )}
@@ -65,9 +65,90 @@ const desktopNav = "hidden md:flex items-center gap-10";
     </a>
   </nav>
 
-  {/* MOBILE HAMBURGER */}
-  <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-1.5">
-    <div class="w-6 h-[2px] bg-primary-color"></div>
-    <div class="w-6 h-[2px] bg-primary-color"></div>
+  {/* 3-LINE MOBILE HAMBURGER */}
+  <button id="mobile-menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none group">
+    <span class="w-6 h-[2px] bg-primary-color group-hover:bg-accent transition-all duration-300 origin-right" id="line-1"></span>
+    <span class="w-6 h-[2px] bg-primary-color group-hover:bg-accent transition-all duration-300" id="line-2"></span>
+    <span class="w-6 h-[2px] bg-primary-color group-hover:bg-accent transition-all duration-300 origin-right" id="line-3"></span>
   </button>
 </header>
+
+{/* ========================================== */}
+{/* 2. MOBILE FULLSCREEN OVERLAY (Z-INDEX 105) */}
+{/* ========================================== */}
+{/* Ejected from the header so fixed positioning works perfectly */}
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-void/95 backdrop-blur-xl z-[105] flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
+  <nav class="flex flex-col gap-8 text-center w-full px-8">
+    {HEADER.navLinks.map((link) => (
+      <a href={link.url} target="_blank" class="mobile-nav-link font-special-ui text-sm tracking-[0.2em] text-secondary-color hover:text-accent border-b border-industrial/30 pb-4 transition-colors uppercase w-full flex justify-center items-center gap-3">
+        {link.label}
+        {link.label.toLowerCase().trim().includes('github') && (
+          <SocialIcon name="github" class="w-4 h-4 opacity-50" />
+        )}
+        {link.label.toLowerCase().trim().includes('linkedin') && (
+          <SocialIcon name="linkedin" class="w-4 h-4 opacity-50" />
+        )}
+      </a>
+    ))}
+    <a href={HEADER.actionButton.url} target="_blank" class="mobile-nav-link mt-4 px-6 py-3 border border-accent/50 font-special-ui text-xs bg-transparent text-primary-color uppercase tracking-[0.15em] font-bold hover:bg-accent transition-all duration-300">
+      {HEADER.actionButton.label}
+    </a>
+  </nav>
+</div>
+
+{/* ========================================== */}
+{/* 3. HARDWARE LOGIC                          */}
+{/* ========================================== */}
+<script is:inline>
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    const links = document.querySelectorAll('.mobile-nav-link');
+    const l1 = document.getElementById('line-1');
+    const l2 = document.getElementById('line-2');
+    const l3 = document.getElementById('line-3');
+    
+    if (!btn || !overlay) return;
+
+    let isOpen = false;
+
+    function toggleMenu() {
+      isOpen = !isOpen;
+      
+      if (isOpen) {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden'; // Stop background scrolling
+        
+        // Morph Hamburger to 'X'
+        l1.style.transform = 'rotate(-45deg) scaleX(1.1)';
+        l2.style.opacity = '0';
+        l3.style.transform = 'rotate(45deg) scaleX(1.1)';
+      } else {
+        overlay.classList.remove('opacity-100', 'pointer-events-auto');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = ''; // Restore scroll
+        
+        // Reset Hamburger
+        l1.style.transform = 'rotate(0) scaleX(1)';
+        l2.style.opacity = '1';
+        l3.style.transform = 'rotate(0) scaleX(1)';
+      }
+    }
+
+    // Clone button to wipe old event listeners (Astro view transition safeguard)
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    
+    newBtn.addEventListener('click', toggleMenu);
+
+    links.forEach(link => {
+      link.onclick = () => {
+        if (isOpen) toggleMenu();
+      };
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+  document.addEventListener('astro:page-load', initMobileMenu);
+</script>

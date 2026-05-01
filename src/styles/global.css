@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* ============================================================
+   SYSTEM-WIDE X-AXIS LOCK
+   Prevents absolute elements and brutalist shadows from 
+   breaking the mobile viewport and causing horizontal scroll.
+============================================================ */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  /* Prevent iOS bounce-scroll from revealing empty space */
+  overscroll-behavior-x: none; 
+}
+
 @theme {
 
     /* Typography */

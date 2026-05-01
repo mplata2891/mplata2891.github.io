@@ -81,6 +81,16 @@ import BootScreen from '../components/system/BootScreen.astro';
     // Boot up the observer on all hidden modules
     const hiddenModules = document.querySelectorAll('.deploy-hidden');
     hiddenModules.forEach((module) => observer.observe(module));
-  </script> 
-</body>
+  </script>
+
+  <script>
+      import { initGlobalObserver } from '../utils/ScrollObserver.js';
+      
+      // Run on initial load
+      initGlobalObserver();
+      
+      // Run on Astro view transitions
+      document.addEventListener('astro:page-load', initGlobalObserver);
+    </script>
+  </body>
 </html>
