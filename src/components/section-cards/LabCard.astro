@@ -4,13 +4,15 @@ import { Code } from 'astro:components';
 
 const { lab } = Astro.props;
 const modalId = `modal-${lab.id}`;
+const cardId = `lab-card-${lab.id}`;
 
 // Safely compute the slug up here to avoid JSX regex parsing errors
 const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerCase() : 'lab';
 ---
 
-{/* OUTER WRAPPER: Neo-Brutalist Offset */}
-<article class:list={[
+{/* OUTER WRAPPER: Added js-lab-card for the global script to find */}
+<article id={cardId} class:list={[
+  "js-lab-card",
   "border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
   "shadow-[6px_6px_0px_var(--color-secondary-color)] transition-all duration-300",
   "hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]"
@@ -19,7 +21,7 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
   {/* ========================================== */}
   {/* ZONE 1: HEADER (Jet Black Hardware Fill)   */}
   {/* ========================================== */}
-  <div class="bg-acrnm-blk border-b border-acrnm-blk p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
+  <div class="bg-acrnm-blk border-b border-[var(--color-border-subtle)] p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
     
     <div class="absolute top-0 left-0 right-0 h-[3px] bg-acrnm-blk"></div>
 
@@ -44,12 +46,30 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
   </div>
 
   {/* ========================================== */}
+  {/* ZONE 1.5: MOBILE HUD TABS (Hidden on Desktop) */}
+  {/* ========================================== */}
+  <div class="flex border-b border-[var(--color-border-subtle)] bg-[#121212] lg:hidden">
+    <button 
+      class="hud-tab active flex-1 py-3 font-special-ui text-xs tracking-widest uppercase transition-colors border-b-2 border-accent text-accent"
+      data-target="brief"
+    >
+      [ OBJECTIVE_BRIEF ]
+    </button>
+    <button 
+      class="hud-tab flex-1 py-3 font-special-ui text-xs tracking-widest uppercase transition-colors border-b-2 border-transparent text-secondary-color hover:text-primary-color"
+      data-target="tech"
+    >
+      [ TECHNICAL_DATA ]
+    </button>
+  </div>
+
+  {/* ========================================== */}
   {/* ZONE 2: BODY (Light Surface)               */}
   {/* ========================================== */}
   <div class="bg-surface p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow">
     
-    {/* LEFT COLUMN: Text Content */}
-    <div class="flex flex-col gap-6">
+    {/* LEFT COLUMN: Text Content (MISSION_BRIEF) */}
+    <div class="hud-panel flex flex-col gap-6 active-panel" data-panel="brief">
       <div>
         <h4 class="font-section-description tracking-widest text-sm text-secondary-color mb-2 uppercase">// THE_PROBLEM</h4>
         <p class="font-section-body text-primary-color leading-relaxed text-sm">{lab.problem}</p>
@@ -60,16 +80,13 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
       </div>
     </div>
 
-    {/* RIGHT COLUMN: The Terminal Inset */}
-    <div class="flex flex-col h-full">
+    {/* RIGHT COLUMN: The Terminal Inset (TECHNICAL_DATA) */}
+    <div class="hud-panel flex flex-col h-full" data-panel="tech">
       
-      {/* ========================================== */}
-      {/* ZONE 3: TERMINAL INSET (Dark Void)         */}
-      {/* ========================================== */}
+      {/* SOFTWARE RENDER */}
       {lab.type === 'software' && (
         <div class="bg-acrnm-blk border border-[var(--color-border-subtle)] p-0 w-full flex flex-col h-full group/terminal">
           
-          {/* Terminal Header Bar */}
           <div class="flex justify-between items-center px-4 py-2 border-b border-[var(--color-border-subtle)] bg-[#121212]">
             <p class="font-special-ui text-xs text-secondary-color uppercase">
               {lab.primaryLanguage} | <a href={lab.repoUrl} target="_blank" rel="noopener noreferrer" class="text-secondary-color hover:text-accent transition-colors">view_repo</a>
@@ -80,7 +97,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
             </div>
           </div>
           
-          {/* Code Body */}
           <div class="p-4 bg-acrnm-blk h-64 overflow-y-auto lab-scrollbar">
             <div class="font-special-ui text-xs [&>pre]:!bg-transparent [&>pre]:whitespace-pre-wrap">
               <Code code={lab.codeSnippet} lang={lab.primaryLanguage} theme="dracula" />
@@ -123,7 +139,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
       {lab.type === 'research' && (
         <div class="bg-acrnm-blk border border-[var(--color-border-subtle)] p-0 w-full flex flex-col h-full">
           
-          {/* Panel Header */}
           <div class="flex justify-between items-center px-4 py-2 border-b border-[var(--color-border-subtle)] bg-[#121212]">
             <p class="font-special-ui text-xs text-secondary-color uppercase tracking-widest">
               // ATTACHED_ASSETS
@@ -133,7 +148,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
             </p>
           </div>
 
-          {/* Asset Links */}
           <div class="flex flex-col gap-0 flex-grow">
             {lab.attachedAssets && lab.attachedAssets.map((asset) => (
               <a 
@@ -157,7 +171,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
             ))}
           </div>
 
-          {/* Repo Link if present */}
           {lab.repoUrl && (
             <a 
               href={lab.repoUrl}
@@ -173,7 +186,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
       )}
     </div>
   </div>
-
 
   {/* --- TRUE GLASSMORPHIC MODAL --- */}
   {lab.type === 'software' && lab.fullCode && (
@@ -200,7 +212,6 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
         </form>
       </div>
       
-      {/* Code Body in Modal */}
       <div class="p-6 overflow-y-auto max-h-[75vh] bg-acrnm-blk/95 lab-scrollbar">
         <div class="font-special-ui text-sm [&>pre]:!bg-transparent">
           <Code code={lab.fullCode} lang={lab.primaryLanguage} theme="dracula" />
@@ -210,7 +221,17 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
   )}
 </article>
 
+{/* ========================================== */}
+{/* THE LOGIC & CSS (Bulletproof isolation)    */}
+{/* ========================================== */}
 <style>
+  /* Mobile Only: Hides the inactive panel so they toggle instead of stack */
+  @media (max-width: 1023px) {
+    .hud-panel:not(.active-panel) {
+      display: none !important;
+    }
+  }
+
   .lab-scrollbar::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -226,3 +247,48 @@ const courseSlug = lab.courseName ? lab.courseName.replace(/\s+/g, '_').toLowerC
     background: var(--color-accent); 
   }
 </style>
+
+<script>
+  // This runs exactly ONCE, finding all cards and attaching the logic safely.
+  function initLabCards() {
+    // Find every Lab Card on the page using the js-lab-card class
+    const cards = document.querySelectorAll('.js-lab-card');
+    
+    cards.forEach(card => {
+      const tabs = card.querySelectorAll('.hud-tab');
+      const panels = card.querySelectorAll('.hud-panel');
+
+      tabs.forEach(tab => {
+        // Use standard onclick to prevent duplicate fires during Astro transitions
+        tab.onclick = () => {
+          const target = tab.getAttribute('data-target');
+
+          // 1. Reset all tabs within THIS specific card
+          tabs.forEach(t => {
+            t.classList.remove('border-accent', 'text-accent');
+            t.classList.add('border-transparent', 'text-secondary-color');
+          });
+
+          // 2. Highlight clicked tab
+          tab.classList.remove('border-transparent', 'text-secondary-color');
+          tab.classList.add('border-accent', 'text-accent');
+
+          // 3. Toggle panels within THIS specific card
+          panels.forEach(p => {
+            if (p.getAttribute('data-panel') === target) {
+              p.classList.add('active-panel');
+            } else {
+              p.classList.remove('active-panel');
+            }
+          });
+        };
+      });
+    });
+  }
+
+  // Run on initial page paint
+  document.addEventListener('DOMContentLoaded', initLabCards);
+  
+  // Run on any subsequent Astro page navigations
+  document.addEventListener('astro:page-load', initLabCards);
+</script>

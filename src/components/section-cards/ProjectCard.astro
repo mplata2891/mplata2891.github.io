@@ -3,8 +3,10 @@
 import { Code } from 'astro:components';
 const { project } = Astro.props;
 
-let statusColor = "bg-phosphor";
+// Generate a unique ID for safely scoped Javascript
+const cardId = `proj-card-${project.title.replace(/\s+/g, '-').toLowerCase()}-${Math.random().toString(36).substr(2, 9)}`;
 
+let statusColor = "bg-phosphor";
 const statusUpper = project.status.toUpperCase();
 if (statusUpper.includes("PROTOTYPE")) {
   statusColor = "bg-accent";
@@ -13,14 +15,17 @@ if (statusUpper.includes("PROTOTYPE")) {
 }
 ---
 
-<article class:list={[
-  "border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
+<article id={cardId} class:list={[
+  "js-project-card border-2 border-secondary-color flex flex-col relative h-full group bg-surface",
   "shadow-[6px_6px_0px_var(--color-secondary-color)] transition-all duration-300",
   "hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_var(--color-secondary-color)]",
   project.span
 ]}>
 
-  <div class="bg-acrnm-blk border-b border-acrnm-blk p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
+  {/* ========================================== */}
+  {/* ZONE 1: HEADER (Jet Black Hardware Fill)   */}
+  {/* ========================================== */}
+  <div class="bg-acrnm-blk border-b border-[var(--color-border-subtle)] p-6 flex flex-col md:flex-row md:justify-between md:items-start gap-4 border-l-4 border-l-industrial relative">
     
     <div class="absolute top-0 left-0 right-0 h-[3px] bg-acrnm-blk"></div>
 
@@ -36,7 +41,7 @@ if (statusUpper.includes("PROTOTYPE")) {
         </div>
       </div>
 
-      <h3 class="text-3xl font-section-headers tracking-wide mb-1 text-[#FAFDFC] uppercase">
+      <h3 class="text-2xl md:text-3xl font-section-headers tracking-wide mb-1 text-[#FAFDFC] uppercase">
         {project.title}
       </h3>
       <p class="font-special-ui text-sm text-[#FAFDFC]/60 uppercase tracking-widest">
@@ -45,9 +50,31 @@ if (statusUpper.includes("PROTOTYPE")) {
     </div>
   </div>
 
-  <div class="p-6 flex-grow flex flex-col gap-6 relative">
+  {/* ========================================== */}
+  {/* ZONE 1.5: MOBILE HUD TABS (Hidden on lg)   */}
+  {/* ========================================== */}
+  <div class="flex border-b border-[var(--color-border-subtle)] bg-[#121212] lg:hidden">
+    <button 
+      class="hud-tab active flex-1 py-3 font-special-ui text-xs tracking-widest uppercase transition-colors border-b-2 border-accent text-accent"
+      data-target="overview"
+    >
+      [ SYS_OVERVIEW ]
+    </button>
+    <button 
+      class="hud-tab flex-1 py-3 font-special-ui text-xs tracking-widest uppercase transition-colors border-b-2 border-transparent text-secondary-color hover:text-primary-color"
+      data-target="tech"
+    >
+      [ TECH_&_ASSETS ]
+    </button>
+  </div>
 
-    <div class="relative z-10 flex flex-col gap-6">
+  {/* ========================================== */}
+  {/* ZONE 2: CARD BODY (2-Column Grid on lg)    */}
+  {/* ========================================== */}
+  <div class="p-6 bg-surface grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow relative">
+
+    {/* LEFT COLUMN: OVERVIEW */}
+    <div class="hud-panel active-panel relative z-10 flex flex-col gap-6" data-panel="overview">
       
       <div>
         <h4 class="font-section-description text-sm text-secondary-color mb-2 tracking-widest uppercase">// SYS_DESCRIPTION</h4>
@@ -63,8 +90,42 @@ if (statusUpper.includes("PROTOTYPE")) {
         </p>
       </div>
 
+      <div class="flex flex-wrap gap-2 mt-2">
+        {project.tags.map((tag) => (
+          <span class="font-special-ui text-xs text-secondary-color border border-[var(--color-border-subtle)] bg-void px-2 py-1 tracking-widest uppercase">
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      {/* External Links pinned to the bottom of the overview column */}
+      {(project.repoUrl || project.liveUrl || project.demoUrl) && (
+        <div class="relative z-10 flex flex-wrap gap-6 mt-auto pt-6 border-t border-[var(--color-border-subtle)]">
+          {project.repoUrl && (
+            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-xs md:text-sm text-secondary-color hover:text-accent transition-colors tracking-widest">
+              [ SOURCE_CODE ]
+            </a>
+          )}
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-xs md:text-sm text-secondary-color hover:text-accent transition-colors tracking-widest">
+              [ LIVE_SITE ]
+            </a>
+          )}
+          {project.demoUrl && (
+            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-xs md:text-sm text-secondary-color hover:text-accent transition-colors tracking-widest">
+              [ SYSTEM_DEMO ]
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+    
+    {/* RIGHT COLUMN: TECH_&_ASSETS */}
+    <div class="hud-panel relative z-10 flex flex-col gap-6 lg:border-l border-[var(--color-border-subtle)] lg:pl-8" data-panel="tech">
+      
+      {/* Code Accordions */}
       {project.subsystems && (
-        <div class="flex flex-col gap-2 mt-2">
+        <div class="flex flex-col gap-2">
           <h4 class="font-section-description text-sm text-secondary-color mb-2 tracking-widest uppercase">// TECHNICAL_SUBSYSTEMS</h4>
           
           {project.subsystems.map((sub) => (
@@ -91,63 +152,96 @@ if (statusUpper.includes("PROTOTYPE")) {
         </div>
       )}
 
-      <div class="flex flex-wrap gap-2 mt-auto pt-4">
-        {project.tags.map((tag) => (
-          <span class="font-special-ui text-xs text-secondary-color border border-[var(--color-border-subtle)] bg-void px-2 py-1 tracking-widest uppercase">
-            #{tag}
-          </span>
-        ))}
-      </div>
-    </div>
-    
-    {project.documents && (
-      <div class="relative z-10 mt-6 pt-6 border-t border-[var(--color-border-subtle)] flex flex-col gap-4">
-        <h4 class="font-section-description text-sm text-secondary-color tracking-widest uppercase">// ATTACHED_ASSETS</h4>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {project.documents.map((doc) => (
-            <a 
-              href={doc.url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="flex flex-col p-3 border border-[var(--color-border-subtle)] bg-surface hover:border-secondary-color transition-colors group/doc"
-            >
-              <div class="flex justify-between items-start mb-2">
-                <span class="font-special-ui text-[10px] px-1.5 py-0.5 tracking-widest border border-[var(--color-border-subtle)] text-secondary-color">
-                  {doc.type}
+      {/* Attached Documents pinned to the bottom */}
+      {project.documents && (
+        <div class="mt-auto pt-6 border-t border-[var(--color-border-subtle)] flex flex-col gap-4">
+          <h4 class="font-section-description text-sm text-secondary-color tracking-widest uppercase">// ATTACHED_ASSETS</h4>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {project.documents.map((doc) => (
+              <a 
+                href={doc.url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="flex flex-col p-3 border border-[var(--color-border-subtle)] bg-surface hover:border-secondary-color transition-colors group/doc"
+              >
+                <div class="flex justify-between items-start mb-2">
+                  <span class="font-special-ui text-[10px] px-1.5 py-0.5 tracking-widest border border-[var(--color-border-subtle)] text-secondary-color">
+                    {doc.type}
+                  </span>
+                  <span class="text-secondary-color transition-colors group-hover/doc:text-primary-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                  </span>
+                </div>
+                <span class="font-section-body text-sm font-semibold text-primary-color transition-colors group-hover/doc:text-accent">
+                  {doc.title}
                 </span>
-                <span class="text-secondary-color transition-colors group-hover/doc:text-primary-color">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                </span>
-              </div>
-              <span class="font-section-body text-sm font-semibold text-primary-color transition-colors group-hover/doc:text-secondary-color">
-                {doc.title}
-              </span>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {(project.repoUrl || project.liveUrl || project.demoUrl) && (
-      <div class="relative z-10 flex flex-wrap gap-6 mt-4 pt-4 border-t border-[var(--color-border-subtle)]">
-        {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
-            [ SOURCE_CODE ]
-          </a>
-        )}
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
-            [ LIVE_SITE ]
-          </a>
-        )}
-        {project.demoUrl && (
-          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="font-special-ui text-sm text-secondary-color hover:text-primary-color transition-colors tracking-widest">
-            [ SYSTEM_DEMO ]
-          </a>
-        )}
-      </div>
-    )}
-
+    </div>
   </div>
 </article>
+
+{/* ========================================== */}
+{/* SYSTEM LOGIC & RESPONSIVE HIDING           */}
+{/* ========================================== */}
+<style>
+  /* Mobile Only: Hides the inactive panel so they toggle instead of stack */
+  @media (max-width: 1023px) {
+    .hud-panel:not(.active-panel) {
+      display: none !important;
+    }
+  }
+
+  /* Custom styling for the code block scrollbars */
+  .lab-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+  .lab-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; border-left: 1px solid rgba(255, 255, 255, 0.05); }
+  .lab-scrollbar::-webkit-scrollbar-thumb { background: #465464; }
+  .lab-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+</style>
+
+<script>
+  function initProjectCards() {
+    // Find every Project Card on the page via the global master class
+    const cards = document.querySelectorAll('.js-project-card');
+
+    cards.forEach(card => {
+      const tabs = card.querySelectorAll('.hud-tab');
+      const panels = card.querySelectorAll('.hud-panel');
+
+      tabs.forEach(tab => {
+        // Standard onclick handler safe for Astro ViewTransitions
+        tab.onclick = () => {
+          const target = tab.getAttribute('data-target');
+
+          // Reset all tabs within THIS specific card
+          tabs.forEach(t => {
+            t.classList.remove('border-accent', 'text-accent');
+            t.classList.add('border-transparent', 'text-secondary-color');
+          });
+
+          // Highlight the clicked tab
+          tab.classList.remove('border-transparent', 'text-secondary-color');
+          tab.classList.add('border-accent', 'text-accent');
+
+          // Swap the visible panels within THIS specific card
+          panels.forEach(p => {
+            if (p.getAttribute('data-panel') === target) {
+              p.classList.add('active-panel');
+            } else {
+              p.classList.remove('active-panel');
+            }
+          });
+        };
+      });
+    });
+  }
+
+  // Ensure scripts run perfectly on first paint and Astro page transitions
+  document.addEventListener('DOMContentLoaded', initProjectCards);
+  document.addEventListener('astro:page-load', initProjectCards);
+</script>

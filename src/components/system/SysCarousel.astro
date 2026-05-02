@@ -2,7 +2,7 @@
 // src/components/system/SysCarousel.astro
 
 const mobileBtn = [
-  "prev-btn sm:hidden absolute z-10 top-1/2 -translate-y-1/2",
+  "sm:hidden absolute z-10 top-1/2 -translate-y-1/2", 
   "px-2 py-6 bg-void/90 border border-[var(--color-border-subtle)] text-secondary-color",
   "hover:text-accent hover:border-accent backdrop-blur-sm transition-all"
 ].join(" ");
@@ -25,7 +25,7 @@ const desktopBtn = [
 
     <div class:list={[
       "carousel-track flex overflow-x-auto snap-x snap-mandatory gap-6",
-      "pb-4 hide-scrollbar items-stretch w-full"
+      "pb-4 hide-scrollbar items-stretch w-full scroll-smooth"
     ]}>
       <slot />
     </div>
@@ -41,13 +41,12 @@ const desktopBtn = [
     "hidden sm:flex justify-center items-center mt-2 pt-4 border-t",
     "border-[var(--color-border-subtle)]"
   ]}>
-    {/* Swapped gap-12 to gap-8 and added items-center to align the new counter */}
     <div class="nav-buttons flex items-center gap-8">
       <button class:list={[desktopBtn, "prev-btn"]}>
         [ &lt;_PREV ]
       </button>
       
-      {/* PHASE 04: Position Counter (Milspec Telemetry Style) */}
+      {/* Position Counter (Milspec Telemetry Style) */}
       <div class="font-special-ui text-sm text-secondary-color tracking-widest select-none">
         <span class="carousel-current">01</span> / <span class="carousel-total">--</span>
       </div>
@@ -71,13 +70,64 @@ const desktopBtn = [
   }
 </style>
 
-{/* --- JS: BIDIRECTIONAL INFINITE CAROUSEL LOGIC --- */}
+{/* --- JS: TARGET-BASED INFINITE LOGIC --- */}
 <script>
-  import { initSysCarousel } from '../../scripts/scroll_carousel.js';
-
   class SysCarousel extends HTMLElement {
     connectedCallback() {
-      initSysCarousel(this); 
+      this.track = this.querySelector('.carousel-track');
+      this.items = Array.from(this.track.children);
+      this.prevBtns = this.querySelectorAll('.prev-btn');
+      this.nextBtns = this.querySelectorAll('.next-btn');
+      this.currentSpan = this.querySelector('.carousel-current');
+      this.totalSpan = this.querySelector('.carousel-total');
+
+      if (this.items.length === 0) return;
+
+      // 1. Initialize Telemetry Data
+      this.totalSpan.textContent = this.items.length.toString().padStart(2, '0');
+      this.currentIndex = 0;
+
+      // 2. Setup Radar (Intersection Observer)
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.currentIndex = this.items.indexOf(entry.target);
+            if (this.currentSpan) {
+              this.currentSpan.textContent = (this.currentIndex + 1).toString().padStart(2, '0');
+            }
+          }
+        });
+      }, {
+        root: this.track,
+        threshold: 0.5
+      });
+
+      this.items.forEach(item => observer.observe(item));
+
+      // 3. Attach Navigation Engines (Using exact indexing)
+      this.nextBtns.forEach(btn => btn.addEventListener('click', () => this.goTo(this.currentIndex + 1)));
+      this.prevBtns.forEach(btn => btn.addEventListener('click', () => this.goTo(this.currentIndex - 1)));
+    }
+
+    goTo(targetIndex) {
+      // The "Infinite Loop" Math
+      if (targetIndex >= this.items.length) {
+        targetIndex = 0; // If you hit next on the last card, rewind to start
+      } else if (targetIndex < 0) {
+        targetIndex = this.items.length - 1; // If you hit prev on the first card, jump to end
+      }
+
+      const targetItem = this.items[targetIndex];
+      
+      // Calculate exact pixel destination relative to the track's current position
+      const trackRect = this.track.getBoundingClientRect();
+      const itemRect = targetItem.getBoundingClientRect();
+      const scrollPosition = this.track.scrollLeft + (itemRect.left - trackRect.left);
+
+      this.track.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
     }
   }
 
